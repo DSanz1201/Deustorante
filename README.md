@@ -1,2 +1,0 @@
-# Deustorante
-Proyecto prog3
