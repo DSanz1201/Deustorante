@@ -1,5 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -17,35 +18,46 @@ import javax.swing.SwingUtilities;
 
 public class VentanaPrincipal extends  JFrame {
 	private JPanel pCentro,pNorte,pSur,pEste,pOeste;
-	private JButton btnPedido,btnIS;
+	private JButton btnIS,btnCC;
 	private JLabel titulo,log,l1 ;
 	private boolean pararImg;
-	// TODO NO APARECEN LAS IMAGENES
+	private JFrame ventanaActual;
 	
 	
 	public VentanaPrincipal() {
 		super();
 		this.setBounds(800,400,600,1000);
 		this.setLocationRelativeTo(null);
-		
+		this.setTitle("Deustorante");
 		// creacion de paneles
-		pCentro = new  JPanel(); // boxlayout?
+		//TODO PONERLES BORDE A TODOS
+		pCentro = new  JPanel(); // TODO boxlayout?
 		pEste = new JPanel();
 		pOeste = new JPanel();
-		pSur = new JPanel();
+		pSur = new JPanel(); 
 		pNorte = new JPanel();
 		
 		// creacion de componentes
+		// TODO COMO HACER QUE EL TITULO Y LOGO VAYAN PARA LA IZQUIERDA Y LOS BOTONES A LA DERECHA ( EN EL PANEL NORTE)
+		ventanaActual = this;
 		
-		btnPedido = new JButton("Relizar Pedido");
 		btnIS = new JButton("Iniciar Sesion");
+		
 		titulo = new JLabel("Deustorante");
+		titulo.setSize(20, 20);
+		titulo.setFont(new Font(Font.DIALOG, Font.BOLD, 20));
+		
+		btnCC = new JButton("Crear Cuenta");
+		
 		ImageIcon logo = new ImageIcon("images/unnamed.png");
 		Image imgLog = logo.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
 		log = new JLabel(new ImageIcon(imgLog));
+		
 		pararImg= false;
+		
 		l1 = new JLabel();
 		l1.setHorizontalAlignment(JLabel.CENTER);
+		
 		// añadir paneles
 		
 		this.getContentPane().add(pCentro, BorderLayout.CENTER);	
@@ -57,16 +69,32 @@ public class VentanaPrincipal extends  JFrame {
 		// añadir componentes a paneles
 		pNorte.add(log); 
 		pNorte.add(titulo);
+		pNorte.add(btnCC);
+		pNorte.add(btnIS);
 		pCentro.add(l1);
 		
 		
 		
-		// listeners
 		
+		// listeners
+		btnCC.addActionListener((e)->{
+			ventanaActual.setVisible(false);
+			new VentanaCC(ventanaActual);
+			
+		});
+		
+		btnIS.addActionListener((e)->{
+			if(!pararImg) {
+				pararImg=true;
+			    ventanaActual.setVisible(false);
+			    new VentanaIS(ventanaActual);
+			}
+		});
 		
 		
 		// hilos
-		Runnable rImg = new Runnable() { // Solo sale una de ellas, la 3
+		
+		Runnable rImg = new Runnable() { // TODO  Solo sale una de ellas, la 3
 			
 			@Override
 			public void run() {
@@ -82,15 +110,14 @@ public class VentanaPrincipal extends  JFrame {
 					try {
 						Thread.sleep(600);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				
 			}
 		 };
-		};		
-        Thread cambImg = new Thread(rImg);
+		};	
 		
+        Thread cambImg = new Thread(rImg);
 		cambImg.start();
 		this.setVisible(true);
       
