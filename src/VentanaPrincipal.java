@@ -1,5 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridBagLayout;
@@ -18,8 +19,8 @@ import javax.swing.SwingUtilities;
 
 public class VentanaPrincipal extends  JFrame {
 	private JPanel pCentro,pNorte,pSur,pEste,pOeste;
-	private JButton btnIS,btnCC;
-	private JLabel titulo,log,l1 ;
+	private JButton btnIS,btnCC, btnReserva, btnCarta_pedido;
+	private JLabel titulo,log,l1,texto_principal;
 	private boolean pararImg;
 	private JFrame ventanaActual;
 	
@@ -32,6 +33,7 @@ public class VentanaPrincipal extends  JFrame {
 		// creacion de paneles
 		//TODO PONERLES BORDE A TODOS
 		pCentro = new  JPanel(); // TODO boxlayout?
+		pCentro.setLayout(new BoxLayout(pCentro, BoxLayout.Y_AXIS));
 		pEste = new JPanel();
 		pOeste = new JPanel();
 		pSur = new JPanel(); 
@@ -42,6 +44,8 @@ public class VentanaPrincipal extends  JFrame {
 		ventanaActual = this;
 		
 		btnIS = new JButton("Iniciar Sesion");
+		btnReserva = new JButton("Reserva");
+		btnCarta_pedido = new JButton("Carta de Pedido");
 		
 		titulo = new JLabel("Deustorante");
 		titulo.setSize(20, 20);
@@ -56,7 +60,17 @@ public class VentanaPrincipal extends  JFrame {
 		pararImg= false;
 		
 		l1 = new JLabel();
+		l1.setPreferredSize(new Dimension(600, 600));
+		texto_principal = new JLabel("<html><div style='text-align: center;'>"
+		        + "<br>En Deustorante, fusionamos tradición e innovación para ofrecerte<br>"
+		        + "platos llenos de sabor con ingredientes frescos y de calidad.<br>"
+		        + "Disfruta de una experiencia gastronómica única en un ambiente acogedor,<br>"
+		        + "ideal para cualquier ocasión.</div></html>");
 		l1.setHorizontalAlignment(JLabel.CENTER);
+		l1.setAlignmentX(CENTER_ALIGNMENT);
+		texto_principal.setVerticalAlignment(JLabel.CENTER);
+		texto_principal.setHorizontalAlignment(JLabel.CENTER);
+		texto_principal.setAlignmentX(CENTER_ALIGNMENT);
 		
 		// añadir paneles
 		
@@ -72,6 +86,9 @@ public class VentanaPrincipal extends  JFrame {
 		pNorte.add(btnCC);
 		pNorte.add(btnIS);
 		pCentro.add(l1);
+		pCentro.add(texto_principal);
+		pCentro.add(btnReserva);
+		pCentro.add(btnCarta_pedido);
 		
 		
 		
@@ -99,13 +116,14 @@ public class VentanaPrincipal extends  JFrame {
 			@Override
 			public void run() {
 				String[] fotos = {"images/foto1.jpg","images/foto2.jpg","images/foto3.jpg"};
-				int i =0;
+				int i = 0;
 				while(!pararImg) {
 					 
-					 ImageIcon icono = new ImageIcon(fotos[i]);
+					 //ImageIcon icono = new ImageIcon(fotos[i]);
+					 ImageIcon icono = new ImageIcon(fotos[2]);
 					 Image img =  icono.getImage().getScaledInstance(450,200, Image.SCALE_SMOOTH);
 					 l1.setIcon(new ImageIcon(img));
-					 l1.repaint();
+					 l1.repaint(); 
 					 i=(i+1)%fotos.length;
 					try {
 						Thread.sleep(600);
@@ -119,6 +137,9 @@ public class VentanaPrincipal extends  JFrame {
 		
         Thread cambImg = new Thread(rImg);
 		cambImg.start();
+		
+		//Añadimos descripcion
+		
 		this.setVisible(true);
       
 		

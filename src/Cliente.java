@@ -4,6 +4,7 @@ public class Cliente {
 	private TipoPersona tipo;
 	public Cliente() {
 		super();
+		
 		// TODO Auto-generated constructor stub
 	}
 	public Cliente(String email, String contrasenia, TipoPersona tipo) {
