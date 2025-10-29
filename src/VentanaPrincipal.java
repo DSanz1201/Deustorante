@@ -1,6 +1,7 @@
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridBagLayout;
@@ -18,9 +19,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 public class VentanaPrincipal extends  JFrame {
-	private JPanel pCentro,pNorte,pSur,pEste,pOeste;
-	private JButton btnIS,btnCC, btnReserva, btnCarta_pedido;
-	private JLabel titulo,log,l1,texto_principal;
+	private JPanel pCentro,pBotonesCentro,pNorte,pSur,pEste,pOeste;
+	protected JButton btnIS,btnCC, btnReserva, btnCarta_pedido;
+	protected JLabel titulo,log,l1,texto_principal;
 	private boolean pararImg;
 	private JFrame ventanaActual;
 	
@@ -34,6 +35,7 @@ public class VentanaPrincipal extends  JFrame {
 		//TODO PONERLES BORDE A TODOS
 		pCentro = new  JPanel(); // TODO boxlayout?
 		pCentro.setLayout(new BoxLayout(pCentro, BoxLayout.Y_AXIS));
+		pBotonesCentro = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 30));
 		pEste = new JPanel();
 		pOeste = new JPanel();
 		pSur = new JPanel(); 
@@ -45,7 +47,7 @@ public class VentanaPrincipal extends  JFrame {
 		
 		btnIS = new JButton("Iniciar Sesion");
 		btnReserva = new JButton("Reserva");
-		btnCarta_pedido = new JButton("Carta de Pedido");
+		btnCarta_pedido = new JButton("Carta / Pedido");
 		
 		titulo = new JLabel("Deustorante");
 		titulo.setSize(20, 20);
@@ -60,7 +62,7 @@ public class VentanaPrincipal extends  JFrame {
 		pararImg= false;
 		
 		l1 = new JLabel();
-		l1.setPreferredSize(new Dimension(600, 600));
+		l1.setPreferredSize(new Dimension(250, 250));
 		texto_principal = new JLabel("<html><div style='text-align: center;'>"
 		        + "<br>En Deustorante, fusionamos tradición e innovación para ofrecerte<br>"
 		        + "platos llenos de sabor con ingredientes frescos y de calidad.<br>"
@@ -87,16 +89,19 @@ public class VentanaPrincipal extends  JFrame {
 		pNorte.add(btnIS);
 		pCentro.add(l1);
 		pCentro.add(texto_principal);
-		pCentro.add(btnReserva);
-		pCentro.add(btnCarta_pedido);
-		
+		pBotonesCentro.add(btnReserva);
+		pBotonesCentro.add(btnCarta_pedido);
+		pCentro.add(pBotonesCentro);		
 		
 		
 		
 		// listeners
 		btnCC.addActionListener((e)->{
-			ventanaActual.setVisible(false);
-			new VentanaCC(ventanaActual);
+			if(!pararImg) {
+				pararImg = true;
+				ventanaActual.setVisible(false);
+				new VentanaCC(ventanaActual);
+			}
 			
 		});
 		
@@ -106,6 +111,24 @@ public class VentanaPrincipal extends  JFrame {
 			    ventanaActual.setVisible(false);
 			    new VentanaIS(ventanaActual);
 			}
+		});
+		
+		btnReserva.addActionListener((e)->{
+			if(!pararImg) {
+				pararImg = true;
+				ventanaActual.setVisible(false);
+				new Reserva(ventanaActual);
+			}
+			
+		});
+		
+		btnCarta_pedido.addActionListener((e)->{
+			if(!pararImg) {
+				pararImg = true;
+				ventanaActual.setVisible(false);
+				new Carta_pedido(ventanaActual);
+			}
+			
 		});
 		
 		
@@ -137,8 +160,6 @@ public class VentanaPrincipal extends  JFrame {
 		
         Thread cambImg = new Thread(rImg);
 		cambImg.start();
-		
-		//Añadimos descripcion
 		
 		this.setVisible(true);
       
