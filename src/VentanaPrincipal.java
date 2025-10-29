@@ -98,29 +98,31 @@ public class VentanaPrincipal extends  JFrame {
 			
 			@Override
 			public void run() {
-				String[] fotos = {"images/foto1.jpg","images/foto2.jpg","images/foto3.jpg"};
-				int i =0;
+				String[] fotos = {"images/foto1.jpg","images/foto2.jpg", "images/foto3.jpg"};
 				while(!pararImg) {
-					 
-					 ImageIcon icono = new ImageIcon(fotos[i]);
-					 Image img =  icono.getImage().getScaledInstance(450,200, Image.SCALE_SMOOTH);
-					 l1.setIcon(new ImageIcon(img));
-					 l1.repaint();
-					 i=(i+1)%fotos.length;
-					try {
-						Thread.sleep(600);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
+					 for(int i=0;i<fotos.length;i++) {
+						 ImageIcon icono = new ImageIcon(fotos[i]);
+						 Image img =  icono.getImage().getScaledInstance(400,200, Image.SCALE_SMOOTH);
+						 l1.setIcon(new ImageIcon(img));
+						 l1.repaint();
+					
+						try {
+							Thread.sleep(600);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
 				
-			}
+					 }
+				}
 		 };
 		};	
 		
         Thread cambImg = new Thread(rImg);
 		cambImg.start();
 		this.setVisible(true);
-      
+		
+		
+      // Renderer
 		
 		
 	}
