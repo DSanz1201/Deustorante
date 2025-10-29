@@ -40,6 +40,7 @@ public class VentanaCC extends JFrame {
 		txtrep = new JPasswordField(10);
 		btnAceptar = new JButton("Aceptar");
 		btnVolver = new JButton("Volver");
+		
 		//AÑADIR PANELES
 		this.getContentPane().add(pCentro,BorderLayout.CENTER);
 		this.getContentPane().add(pSur,BorderLayout.SOUTH);
