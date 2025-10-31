@@ -33,7 +33,7 @@ public class VentanaPrincipal extends  JFrame {
 		this.setTitle("Deustorante");
 		// creacion de paneles
 		//TODO PONERLES BORDE A TODOS
-		pCentro = new  JPanel(); // TODO boxlayout?
+		pCentro = new  JPanel();
 		pCentro.setLayout(new BoxLayout(pCentro, BoxLayout.Y_AXIS));
 		pBotonesCentro = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 30));
 		pEste = new JPanel();
@@ -141,18 +141,22 @@ public class VentanaPrincipal extends  JFrame {
 				String[] fotos = {"images/foto1.jpg","images/foto2.jpg","images/foto3.jpg"};
 				int i = 0;
 				while(!pararImg) {
-					 
-					 //ImageIcon icono = new ImageIcon(fotos[i]);
-					 ImageIcon icono = new ImageIcon(fotos[2]);
-					 Image img =  icono.getImage().getScaledInstance(450,200, Image.SCALE_SMOOTH);
-					 l1.setIcon(new ImageIcon(img));
-					 l1.repaint(); 
-					 i=(i+1)%fotos.length;
+					if(i==fotos.length) {
+						i=0;
+					}
 					try {
 						Thread.sleep(600);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
+					 //ImageIcon icono = new ImageIcon(fotos[i]);
+					 ImageIcon icono = new ImageIcon(fotos[i]);
+					 Image img =  icono.getImage().getScaledInstance(450,200, Image.SCALE_SMOOTH);
+					 l1.setIcon(new ImageIcon(img));
+					 l1.repaint(); 
+					 i=i+1;
+					 
+					
 				
 			}
 		 };
