@@ -11,6 +11,8 @@ public class Reserva extends JFrame {
 	private JFrame ventanaAnterior;
 	private JFrame ventanaActual;
 	private JPanel pCentro,pSur;
+	// TODO MIRAR UN POCO ESTO
+	private Dia dia;
 	
 	public Reserva(JFrame va) {
 		ventanaAnterior=va;
