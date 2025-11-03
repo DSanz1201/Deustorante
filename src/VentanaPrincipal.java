@@ -15,6 +15,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -115,9 +116,17 @@ public class VentanaPrincipal extends  JFrame {
 		
 		btnReserva.addActionListener((e)->{
 			if(!pararImg) {
-				pararImg = true;
+				
 				ventanaActual.setVisible(false);
-				new Reserva(ventanaActual);
+				String n = JOptionPane.showInputDialog("Cuantas personas serian : ");
+				int num = Integer.parseInt(n);
+				String em = JOptionPane.showInputDialog("Su email? ");
+				String per = JOptionPane.showInputDialog("Eres Estudiante, Profesor o Externo a la organizacio?");
+				TipoPersona p = TipoPersona.valueOf(per.toUpperCase());
+				Cliente c = new Cliente(em, "", p);
+				Reserva r = new Reserva(num, c);
+				new VentanaReserva(ventanaActual,r);
+				
 			}
 			
 		});
@@ -138,7 +147,7 @@ public class VentanaPrincipal extends  JFrame {
 			
 			@Override
 			public void run() {
-				String[] fotos = {"images/foto1.jpg","images/foto2.jpg","images/foto3.jpg"};
+				String[] fotos = {"images/foto3.jpg","images/unnamed.png"};
 				int i = 0;
 				while(!pararImg) {
 					if(i==fotos.length) {
@@ -149,7 +158,6 @@ public class VentanaPrincipal extends  JFrame {
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
-					 //ImageIcon icono = new ImageIcon(fotos[i]);
 					 ImageIcon icono = new ImageIcon(fotos[i]);
 					 Image img =  icono.getImage().getScaledInstance(450,200, Image.SCALE_SMOOTH);
 					 l1.setIcon(new ImageIcon(img));
