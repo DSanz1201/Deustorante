@@ -1,4 +1,5 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -18,6 +19,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import javax.swing.border.LineBorder;
 
 public class VentanaPrincipal extends  JFrame {
 	private JPanel pCentro,pBotonesCentro,pNorte,pSur,pEste,pOeste;
@@ -64,13 +66,17 @@ public class VentanaPrincipal extends  JFrame {
 		
 		l1 = new JLabel();
 		l1.setPreferredSize(new Dimension(250, 250));
+		l1.setHorizontalAlignment(JLabel.CENTER);
+		l1.setAlignmentX(CENTER_ALIGNMENT);
+		
 		texto_principal = new JLabel("<html><div style='text-align: center;'>"
 		        + "<br>En Deustorante, fusionamos tradición e innovación para ofrecerte<br>"
 		        + "platos llenos de sabor con ingredientes frescos y de calidad.<br>"
 		        + "Disfruta de una experiencia gastronómica única en un ambiente acogedor,<br>"
 		        + "ideal para cualquier ocasión.</div></html>");
-		l1.setHorizontalAlignment(JLabel.CENTER);
-		l1.setAlignmentX(CENTER_ALIGNMENT);
+		texto_principal.setOpaque(true);
+		texto_principal.setBackground(Color.WHITE);
+		texto_principal.setBorder(new LineBorder(Color.white));
 		texto_principal.setVerticalAlignment(JLabel.CENTER);
 		texto_principal.setHorizontalAlignment(JLabel.CENTER);
 		texto_principal.setAlignmentX(CENTER_ALIGNMENT);
@@ -143,18 +149,18 @@ public class VentanaPrincipal extends  JFrame {
 		
 		// hilos
 		
-		Runnable rImg = new Runnable() { // TODO  Solo sale una de ellas, la 3
+		Runnable rImg = new Runnable() { 
 			
 			@Override
 			public void run() {
-				String[] fotos = {"images/foto3.jpg","images/unnamed.png"};
+				String[] fotos = {"images/images.png","images2.png","images/images3.png"};
 				int i = 0;
 				while(!pararImg) {
 					if(i==fotos.length) {
 						i=0;
 					}
 					try {
-						Thread.sleep(600);
+						Thread.sleep(1000);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
