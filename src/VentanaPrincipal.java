@@ -31,32 +31,72 @@ public class VentanaPrincipal extends  JFrame {
 	
 	public VentanaPrincipal() {
 		super();
-		this.setBounds(800,400,600,1000);
+		this.setBounds(800,400,600,800);
 		this.setLocationRelativeTo(null);
 		this.setTitle("Deustorante");
 		// creacion de paneles
 		//TODO PONERLES BORDE A TODOS
 		pCentro = new  JPanel();
 		pCentro.setLayout(new BoxLayout(pCentro, BoxLayout.Y_AXIS));
+		pCentro.setBackground(Color.WHITE);
+		pCentro.setOpaque(true);
+		
 		pBotonesCentro = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 30));
+		pBotonesCentro.setBackground(Color.WHITE);
+		pBotonesCentro.setOpaque(true);
+		
+		
 		pEste = new JPanel();
+		pEste.setOpaque(true);
+		pEste.setBackground(Color.BLUE);
+		
 		pOeste = new JPanel();
+		pOeste.setOpaque(true);
+		pOeste.setBackground(Color.BLUE);
+		
 		pSur = new JPanel(); 
+		pSur.setOpaque(true);
+		pSur.setBackground(Color.BLUE);
+		
 		pNorte = new JPanel();
+		pNorte.setBackground(Color.white);
+		pNorte.setOpaque(true);
 		
 		// creacion de componentes
 		// TODO COMO HACER QUE EL TITULO Y LOGO VAYAN PARA LA IZQUIERDA Y LOS BOTONES A LA DERECHA ( EN EL PANEL NORTE)
 		ventanaActual = this;
 		
 		btnIS = new JButton("Iniciar Sesion");
+		btnIS.setOpaque(true);
+		btnIS.setBackground(Color.WHITE);
+		btnIS.setFont(new Font(Font.DIALOG, Font.BOLD, 15));
+		btnIS.setBorder(new LineBorder(Color.WHITE));
+		btnIS.setForeground(Color.BLUE);
+		
 		btnReserva = new JButton("Reserva");
+		btnReserva.setOpaque(true);
+		btnReserva.setBackground(Color.WHITE);
+		btnReserva.setFont(new Font(Font.DIALOG, Font.BOLD, 15));
+		btnReserva.setBorder(new LineBorder(Color.WHITE));
+		btnReserva.setForeground(Color.BLUE);
+		
 		btnCarta_pedido = new JButton("Carta / Pedido");
+		btnCarta_pedido.setOpaque(true);
+		btnCarta_pedido.setBackground(Color.WHITE);
+		btnCarta_pedido.setFont(new Font(Font.DIALOG, Font.BOLD, 15));
+		btnCarta_pedido.setBorder(new LineBorder(Color.WHITE));
+		btnCarta_pedido.setForeground(Color.BLUE);
 		
 		titulo = new JLabel("Deustorante");
 		titulo.setSize(20, 20);
-		titulo.setFont(new Font(Font.DIALOG, Font.BOLD, 20));
+		titulo.setFont(new Font(Font.DIALOG, Font.BOLD, 45));
 		
 		btnCC = new JButton("Crear Cuenta");
+		btnCC.setOpaque(true);
+		btnCC.setBackground(Color.WHITE);
+		btnCC.setFont(new Font(Font.DIALOG, Font.BOLD, 15));
+		btnCC.setBorder(new LineBorder(Color.WHITE));
+		btnCC.setForeground(Color.BLUE);
 		
 		ImageIcon logo = new ImageIcon("images/unnamed.png");
 		Image imgLog = logo.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
@@ -92,7 +132,7 @@ public class VentanaPrincipal extends  JFrame {
 		// añadir componentes a paneles
 		pNorte.add(log); 
 		pNorte.add(titulo);
-		pNorte.add(btnCC);
+		pBotonesCentro.add(btnCC);
 		pNorte.add(btnIS);
 		pCentro.add(l1);
 		pCentro.add(texto_principal);
@@ -105,7 +145,6 @@ public class VentanaPrincipal extends  JFrame {
 		// listeners
 		btnCC.addActionListener((e)->{
 			if(!pararImg) {
-				pararImg = true;
 				ventanaActual.setVisible(false);
 				new VentanaCC(ventanaActual);
 			}
@@ -114,7 +153,7 @@ public class VentanaPrincipal extends  JFrame {
 		
 		btnIS.addActionListener((e)->{
 			if(!pararImg) {
-				pararImg=true;
+				
 			    ventanaActual.setVisible(false);
 			    new VentanaIS(ventanaActual);
 			}
@@ -139,7 +178,7 @@ public class VentanaPrincipal extends  JFrame {
 		
 		btnCarta_pedido.addActionListener((e)->{
 			if(!pararImg) {
-				pararImg = true;
+				
 				ventanaActual.setVisible(false);
 				new Carta_pedido(ventanaActual);
 			}
