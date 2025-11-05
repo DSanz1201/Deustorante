@@ -88,11 +88,17 @@ public class VentanaReserva extends JFrame{
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				// TODO Auto-generated method stub
+				Point p = e.getPoint();
+				fila = tabla.rowAtPoint(p);
+				columna = tabla.columnAtPoint(p);
+				modelo.actualizarModelo(fila, columna,r);
+				
 				
 			}
 		});
+		 
 		tabla.setDefaultRenderer(Object.class, (JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column)->{
+			String[] reposo = {"R","E","P","O","S","O","?"};
 			JLabel l = new JLabel();
 			l.setOpaque(true);
 			if(column ==0) {
@@ -102,6 +108,12 @@ public class VentanaReserva extends JFrame{
 			}
 			if(fila== row && column == columna && column!=0 ) {
 				l.setBackground(Color.BLUE);
+			}
+			if(row%3==0) {
+				//System.out.println(reposo[column]);
+				l.setText(reposo[column]);
+				l.setBackground(Color.GRAY);
+				l.setHorizontalAlignment(JLabel.CENTER);
 			}
 			return l;
 		});

@@ -123,6 +123,9 @@ public class Main extends  JFrame {
 		l1.setPreferredSize(new Dimension(250, 250));
 		l1.setHorizontalAlignment(JLabel.CENTER);
 		l1.setAlignmentX(CENTER_ALIGNMENT);
+		ImageIcon iconoprimero = new ImageIcon("images/images3.png");
+		Image img =  iconoprimero.getImage().getScaledInstance(450,200, Image.SCALE_SMOOTH);
+		l1.setIcon(new ImageIcon(img));
 		
 		texto_principal = new JLabel("<html><div style='text-align: center;'>"
 		        + "<br>En Deustorante, fusionamos tradición e innovación para ofrecerte<br>"
@@ -183,19 +186,25 @@ public class Main extends  JFrame {
 			if(!pararImg) {
 				try {
 				ventanaActual.setVisible(false);
-				String n = JOptionPane.showInputDialog("Cuantas personas serian : ");
-				int num = Integer.parseInt(n);
-				String em = JOptionPane.showInputDialog("Su email? ");
-				String[] opciones = {"Estudiante", "Profesor", "Externo"};
+				String datos = JOptionPane.showInputDialog(
+						"Ingrese su número de personasy email separados por coma:\n, correo@gmail.com"
+					);
+
+					String[] partes = datos.split(",");
+
+					int num = Integer.parseInt(partes[0].trim());
+					String em = partes[1].trim();
+
+					String[] opciones = {"Estudiante", "Profesor", "Externo"};
 					String per = (String) JOptionPane.showInputDialog(
-			                null,
-			                "Seleccione su tipo de persona:",
-			                "Tipo de persona",
-			                JOptionPane.QUESTION_MESSAGE,
-			                null,
-			                opciones,
-			                opciones[0]
-			        );
+					    null,
+					    "Seleccione su tipo de persona:",
+					    "Tipo de persona",
+					    JOptionPane.QUESTION_MESSAGE,
+					    null,
+					    opciones,
+					    opciones[0]
+					);
 					TipoPersona p = TipoPersona.valueOf(per.toUpperCase());
 					Cliente c = new Cliente(em, "", p);
 					Reserva r = new Reserva(num, c);

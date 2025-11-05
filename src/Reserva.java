@@ -20,7 +20,7 @@ public class Reserva  {
 	public Reserva(int numPersona, Cliente clienteResponsable) {
 		super();
 		cont++;
-		cod=cont;
+		this.cod=cont;
 		this.numPersona = numPersona;
 		this.clienteResponsable = clienteResponsable;
 	}

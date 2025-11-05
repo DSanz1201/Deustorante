@@ -46,5 +46,8 @@ public class ModeloReserva extends DefaultTableModel{
 			return r;
 		}
 	}
-	
+	// TODO METODO SET
+	public void actualizarModelo(int row, int column,Reserva r) {
+		
+	}
 }

@@ -1,4 +1,7 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 
 import javax.swing.JButton;
@@ -7,12 +10,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.border.LineBorder;
 
 public class VentanaIS extends JFrame{
 	private JFrame ventanaAnterior;
 	private JFrame ventanaActual;
 	private JPanel pCentro,pSur;
-	private JLabel email,contrasenya;
+	private JLabel email,contrasenya,espacio;
 	private JTextField txtemail;
 	private JPasswordField txtcontr;
 	private JButton btnVolver,btnAceptar;
@@ -20,6 +24,7 @@ public class VentanaIS extends JFrame{
 	public VentanaIS(JFrame va) {
 		ventanaAnterior=va;
 		ventanaActual = this;
+	
 		this.setTitle("Iniciar Sesión");
 		this.setBounds(200,400,600,300);
 		this.setVisible(true);
@@ -27,16 +32,42 @@ public class VentanaIS extends JFrame{
 		
 		
 		pCentro = new JPanel(new GridLayout(4,6,5,5));
+		pCentro.setOpaque(true);
+		pCentro.setBackground(Color.white);
+		
+		
 		pSur = new JPanel();
+		pSur.setOpaque(true);
+		pSur.setBackground(Color.WHITE);
 		
+		espacio = new JLabel("        ");
 		
-		// TODO SE PUEDEN HACER MAS PEQUEÑOS
 	    email = new JLabel("Email");
+	    email.setFont(new Font(Font.DIALOG, Font.BOLD, 15));
+	    
 		contrasenya = new JLabel("Contraseña");
+		contrasenya.setFont(new Font(Font.DIALOG, Font.BOLD, 15));
+		
 		txtcontr = new JPasswordField(10);
+		txtcontr.setBorder(new LineBorder(Color.BLUE));
+		
 		txtemail= new JTextField(20);
+		txtemail.setBorder(new LineBorder(Color.blue));
+		
 		btnAceptar = new JButton("Aceptar");
+		btnAceptar.setOpaque(true);
+		btnAceptar.setBackground(Color.WHITE);
+		btnAceptar.setForeground(Color.BLUE);
+		btnAceptar.setBorder(new LineBorder(Color.BLUE));
+		btnAceptar.setHorizontalAlignment(JButton.CENTER);
+		
+		
 		btnVolver = new JButton("Volver");
+		btnVolver.setOpaque(true);
+		btnVolver.setBackground(Color.WHITE);
+		btnVolver.setForeground(Color.BLUE);
+		btnVolver.setBorder(new LineBorder(Color.BLUE));
+		btnVolver.setHorizontalAlignment(JButton.CENTER);
 		
 		this.getContentPane().add(pCentro,BorderLayout.CENTER);
 		this.getContentPane().add(pSur,BorderLayout.SOUTH);
@@ -46,6 +77,7 @@ public class VentanaIS extends JFrame{
 		pCentro.add(contrasenya);
 		pCentro.add(txtcontr);
 		pSur.add(btnAceptar);
+		pSur.add(espacio);
 		pSur.add(btnVolver);
 		
 		btnVolver.addActionListener((e)->{
@@ -55,7 +87,7 @@ public class VentanaIS extends JFrame{
 		btnAceptar.addActionListener((e)->{
 			String em = email.getText();
 			String cont = contrasenya.getText();
-			// TODO VERIFICAR QUE EXISTE ESE CLIENTE CUANDO LOS BUSQUEMOS EN LA TABLA O LISTA, POR LO QUE AÑADIR EL MODELO DE TABLA
+			// TODO VERIFICAR en un MAPA
 			
 		});
 		
