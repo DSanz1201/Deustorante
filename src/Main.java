@@ -1,3 +1,5 @@
+import java.awt.AWTError;
+import java.awt.AWTEvent;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -179,27 +181,30 @@ public class Main extends  JFrame {
 		
 		btnReserva.addActionListener((e)->{
 			if(!pararImg) {
-				
+				try {
 				ventanaActual.setVisible(false);
 				String n = JOptionPane.showInputDialog("Cuantas personas serian : ");
 				int num = Integer.parseInt(n);
 				String em = JOptionPane.showInputDialog("Su email? ");
 				String[] opciones = {"Estudiante", "Profesor", "Externo"};
-		        String per = (String) JOptionPane.showInputDialog(
-		                null,
-		                "Seleccione su tipo de persona:",
-		                "Tipo de persona",
-		                JOptionPane.QUESTION_MESSAGE,
-		                null,
-		                opciones,
-		                opciones[0]
-		        );
-				
-				TipoPersona p = TipoPersona.valueOf(per.toUpperCase());
-				Cliente c = new Cliente(em, "", p);
-				Reserva r = new Reserva(num, c);
-				new VentanaReserva(ventanaActual,r);
-				
+					String per = (String) JOptionPane.showInputDialog(
+			                null,
+			                "Seleccione su tipo de persona:",
+			                "Tipo de persona",
+			                JOptionPane.QUESTION_MESSAGE,
+			                null,
+			                opciones,
+			                opciones[0]
+			        );
+					TipoPersona p = TipoPersona.valueOf(per.toUpperCase());
+					Cliente c = new Cliente(em, "", p);
+					Reserva r = new Reserva(num, c);
+					new VentanaReserva(ventanaActual,r);
+					
+				} catch (NumberFormatException err) {
+					this.dispose();
+					new Main();
+				}
 			}
 			
 		});

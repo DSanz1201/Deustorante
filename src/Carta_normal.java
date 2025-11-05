@@ -67,5 +67,12 @@ public class Carta_normal extends JFrame {
 		);
 		
 		add(carta, BorderLayout.CENTER);
+		
+		this.addWindowListener(new java.awt.event.WindowAdapter() {
+		    @Override
+		    public void windowClosing(java.awt.event.WindowEvent e) {
+		        ventanaAnterior.setVisible(true);  // muestra el Main otra vez
+		    }
+		});
 	}
 }

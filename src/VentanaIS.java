@@ -23,6 +23,7 @@ public class VentanaIS extends JFrame{
 		this.setTitle("Iniciar Sesión");
 		this.setBounds(200,400,600,300);
 		this.setVisible(true);
+		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		
 		
 		pCentro = new JPanel(new GridLayout(4,6,5,5));
