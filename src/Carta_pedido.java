@@ -15,7 +15,7 @@ public class Carta_pedido extends JFrame {
 	public Carta_pedido(JFrame va) {
 		ventanaAnterior=va;
 		ventanaActual = this;
-		this.setTitle("Reserva");
+		this.setTitle("Pedido");
 		this.setBounds(800,400,800,600);
 		this.setVisible(true);
 		

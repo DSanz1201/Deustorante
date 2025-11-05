@@ -9,7 +9,9 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.HeadlessException;
 import java.awt.Image;
+import java.awt.Rectangle;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -21,15 +23,15 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
 
-public class VentanaPrincipal extends  JFrame {
-	private JPanel pCentro,pBotonesCentro,pNorte,pSur,pEste,pOeste;
-	protected JButton btnIS,btnCC, btnReserva, btnCarta_pedido;
-	protected JLabel titulo,log,l1,texto_principal;
+public class Main extends  JFrame {
+	private JPanel pCentro, pBotonesCentro, pNorte, pSur, pEste, pOeste;
+	protected JButton btnIS,btnCC, btnReserva, btnCarta_pedido, btnCarta_normal;
+	protected JLabel titulo, log, l1, texto_principal, espacio1, espacio2;
 	private boolean pararImg;
 	private JFrame ventanaActual;
 	
 	
-	public VentanaPrincipal() {
+	public Main() {
 		super();
 		this.setBounds(800,400,600,800);
 		this.setLocationRelativeTo(null);
@@ -66,30 +68,24 @@ public class VentanaPrincipal extends  JFrame {
 		// TODO COMO HACER QUE EL TITULO Y LOGO VAYAN PARA LA IZQUIERDA Y LOS BOTONES A LA DERECHA ( EN EL PANEL NORTE)
 		ventanaActual = this;
 		
+		ImageIcon logo = new ImageIcon("images/unnamed.png");
+		Image imgLog = logo.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+		log = new JLabel(new ImageIcon(imgLog));
+		
+		titulo = new JLabel("Deustorante");
+		titulo.setSize(20, 20);
+		titulo.setFont(new Font(Font.DIALOG, Font.BOLD, 30));
+		
+		espacio1 = new JLabel("            ");
+		
+		espacio2 = new JLabel("     ");
+		
 		btnIS = new JButton("Iniciar Sesion");
 		btnIS.setOpaque(true);
 		btnIS.setBackground(Color.WHITE);
 		btnIS.setFont(new Font(Font.DIALOG, Font.BOLD, 15));
 		btnIS.setBorder(new LineBorder(Color.WHITE));
 		btnIS.setForeground(Color.BLUE);
-		
-		btnReserva = new JButton("Reserva");
-		btnReserva.setOpaque(true);
-		btnReserva.setBackground(Color.WHITE);
-		btnReserva.setFont(new Font(Font.DIALOG, Font.BOLD, 15));
-		btnReserva.setBorder(new LineBorder(Color.WHITE));
-		btnReserva.setForeground(Color.BLUE);
-		
-		btnCarta_pedido = new JButton("Carta / Pedido");
-		btnCarta_pedido.setOpaque(true);
-		btnCarta_pedido.setBackground(Color.WHITE);
-		btnCarta_pedido.setFont(new Font(Font.DIALOG, Font.BOLD, 15));
-		btnCarta_pedido.setBorder(new LineBorder(Color.WHITE));
-		btnCarta_pedido.setForeground(Color.BLUE);
-		
-		titulo = new JLabel("Deustorante");
-		titulo.setSize(20, 20);
-		titulo.setFont(new Font(Font.DIALOG, Font.BOLD, 45));
 		
 		btnCC = new JButton("Crear Cuenta");
 		btnCC.setOpaque(true);
@@ -98,9 +94,26 @@ public class VentanaPrincipal extends  JFrame {
 		btnCC.setBorder(new LineBorder(Color.WHITE));
 		btnCC.setForeground(Color.BLUE);
 		
-		ImageIcon logo = new ImageIcon("images/unnamed.png");
-		Image imgLog = logo.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
-		log = new JLabel(new ImageIcon(imgLog));
+		btnReserva = new JButton("Reserva");
+		btnReserva.setOpaque(true);
+		btnReserva.setBackground(Color.WHITE);
+		btnReserva.setFont(new Font(Font.DIALOG, Font.BOLD, 15));
+		btnReserva.setBorder(new LineBorder(Color.WHITE));
+		btnReserva.setForeground(Color.BLUE);
+		
+		btnCarta_normal = new JButton("Carta");
+		btnCarta_normal.setOpaque(true);
+		btnCarta_normal.setBackground(Color.WHITE);
+		btnCarta_normal.setFont(new Font(Font.DIALOG, Font.BOLD, 15));
+		btnCarta_normal.setBorder(new LineBorder(Color.WHITE));
+		btnCarta_normal.setForeground(Color.BLUE);
+		
+		btnCarta_pedido = new JButton("Pedido");
+		btnCarta_pedido.setOpaque(true);
+		btnCarta_pedido.setBackground(Color.WHITE);
+		btnCarta_pedido.setFont(new Font(Font.DIALOG, Font.BOLD, 15));
+		btnCarta_pedido.setBorder(new LineBorder(Color.WHITE));
+		btnCarta_pedido.setForeground(Color.BLUE);
 		
 		pararImg= false;
 		
@@ -132,11 +145,16 @@ public class VentanaPrincipal extends  JFrame {
 		// añadir componentes a paneles
 		pNorte.add(log); 
 		pNorte.add(titulo);
-		pBotonesCentro.add(btnCC);
+		pNorte.add(espacio1);
+		pNorte.add(btnCC);
+		pNorte.add(espacio2);
 		pNorte.add(btnIS);
 		pCentro.add(l1);
 		pCentro.add(texto_principal);
 		pBotonesCentro.add(btnReserva);
+		pBotonesCentro.add(Box.createRigidArea(new Dimension(20, 0)));
+		pBotonesCentro.add(btnCarta_normal);
+		pBotonesCentro.add(Box.createRigidArea(new Dimension(20, 0)));
 		pBotonesCentro.add(btnCarta_pedido);
 		pCentro.add(pBotonesCentro);		
 		
@@ -166,12 +184,31 @@ public class VentanaPrincipal extends  JFrame {
 				String n = JOptionPane.showInputDialog("Cuantas personas serian : ");
 				int num = Integer.parseInt(n);
 				String em = JOptionPane.showInputDialog("Su email? ");
-				String per = JOptionPane.showInputDialog("Eres Estudiante, Profesor o Externo a la organizacio?");
+				String[] opciones = {"Estudiante", "Profesor", "Externo"};
+		        String per = (String) JOptionPane.showInputDialog(
+		                null,
+		                "Seleccione su tipo de persona:",
+		                "Tipo de persona",
+		                JOptionPane.QUESTION_MESSAGE,
+		                null,
+		                opciones,
+		                opciones[0]
+		        );
+				
 				TipoPersona p = TipoPersona.valueOf(per.toUpperCase());
 				Cliente c = new Cliente(em, "", p);
 				Reserva r = new Reserva(num, c);
 				new VentanaReserva(ventanaActual,r);
 				
+			}
+			
+		});
+		
+		btnCarta_normal.addActionListener((e)->{
+			if(!pararImg) {
+				
+				ventanaActual.setVisible(false);
+				new Carta_normal(ventanaActual);
 			}
 			
 		});
@@ -192,7 +229,7 @@ public class VentanaPrincipal extends  JFrame {
 			
 			@Override
 			public void run() {
-				String[] fotos = {"images/images.png","images2.png","images/images3.png"};
+				String[] fotos = {"images/images.png","images/images2.png","images/images3.png"};
 				int i = 0;
 				while(!pararImg) {
 					if(i==fotos.length) {
@@ -225,7 +262,7 @@ public class VentanaPrincipal extends  JFrame {
 	}
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(()->{
-			new VentanaPrincipal();
+			new Main();
 		});
 	}
 	

@@ -128,7 +128,7 @@ public class VentanaReserva extends JFrame{
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if(e.getKeyCode()==KeyEvent.VK_ESCAPE) {
-					int res = JOptionPane.showConfirmDialog(null, "Quieres cerrar el Calendario de Resrvas");
+					int res = JOptionPane.showConfirmDialog(null, "Quieres cerrar el Calendario de Reservas");
 					if(res==0) {
 						// TODO PQ NO ME COGE ESTAS VENTANAS
 						ventanaActual.setVisible(false);
