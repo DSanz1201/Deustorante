@@ -7,8 +7,10 @@ import java.awt.GridLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JProgressBar;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
@@ -20,6 +22,8 @@ public class VentanaIS extends JFrame{
 	private JTextField txtemail;
 	private JPasswordField txtcontr;
 	private JButton btnVolver,btnAceptar;
+	private JProgressBar jb;
+	private Thread tpro;
 	
 	public VentanaIS(JFrame va) {
 		ventanaAnterior=va;
@@ -63,11 +67,18 @@ public class VentanaIS extends JFrame{
 		
 		
 		btnVolver = new JButton("Volver");
-		btnVolver.setOpaque(true);
+		btnVolver.setOpaque(false);
 		btnVolver.setBackground(Color.WHITE);
 		btnVolver.setForeground(Color.BLUE);
 		btnVolver.setBorder(new LineBorder(Color.BLUE));
 		btnVolver.setHorizontalAlignment(JButton.CENTER);
+		
+		jb = new JProgressBar(0, 100);
+		jb.setValue(0);
+		jb.setVisible(true);
+		jb.setBackground(Color.WHITE);
+		jb.setForeground(Color.BLUE);
+		jb.setStringPainted(true);
 		
 		this.getContentPane().add(pCentro,BorderLayout.CENTER);
 		this.getContentPane().add(pSur,BorderLayout.SOUTH);
@@ -79,19 +90,44 @@ public class VentanaIS extends JFrame{
 		pSur.add(btnAceptar);
 		pSur.add(espacio);
 		pSur.add(btnVolver);
+		this.add(jb,BorderLayout.NORTH);
 		
 		btnVolver.addActionListener((e)->{
 			this.ventanaActual.setVisible(false);
 			this.ventanaAnterior.setVisible(true);
 		});
 		btnAceptar.addActionListener((e)->{
-			String em = email.getText();
-			String cont = contrasenya.getText();
+			String em = txtemail.getText();
+			String cont = txtcontr.getText();
 			// TODO VERIFICAR en un MAPA
+			jb.setVisible(true);
+			tpro.start();
 			
 		});
+		this.addWindowListener(new java.awt.event.WindowAdapter() {
+		    @Override
+		    public void windowClosing(java.awt.event.WindowEvent e) {
+		    	ventanaActual.setVisible(false);
+		        ventanaAnterior.setVisible(true);  // muestra el Main otra vez
+		    }
+		});
 		
-		this.setVisible(true);
+		
+		 tpro = new Thread(()->{
+				
+			    for (int i = 0; i <= 100; i++) {
+			       jb.setValue(i);
+			        try { 
+			        	Thread.sleep(20); 
+			        } catch (InterruptedException ex) {
+			        	}
+			        }
+			    this.ventanaActual.setVisible(false);
+		    	this.ventanaAnterior.setVisible(true);
+			    JOptionPane.showMessageDialog(null, "Bienvedido de nuevo "+txtemail.getText());
+		 });
+
+			this.setVisible(true);
 	}
 	
 	

@@ -3,6 +3,7 @@ import java.awt.FlowLayout;
 import java.awt.GraphicsConfiguration;
 import java.awt.GridLayout;
 import java.awt.HeadlessException;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -27,9 +28,7 @@ public class Reserva  {
 	/**
 	 * @return the numPersona
 	 */
-	public int getNumPersona() {
-		return numPersona;
-	}
+	
 	/**
 	 * @param numPersona the numPersona to set
 	 */

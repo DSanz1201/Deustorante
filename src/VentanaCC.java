@@ -12,11 +12,13 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JProgressBar;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
 public class VentanaCC extends JFrame {
+	private static final long MAX_VALUE = 10_000_000;
 	private JFrame ventanaAnterior;
 	private JFrame ventanaActual;
 	private JPanel pCentro,pSur;
@@ -24,6 +26,8 @@ public class VentanaCC extends JFrame {
 	private JTextField txtemail;
 	private JPasswordField txtrep,txtcontr;
 	private JButton btnVolver,btnAceptar;
+	private JProgressBar jb ;
+	private Thread tpro;
 	
 	
 	public VentanaCC(JFrame ventanaActual2) {
@@ -83,6 +87,15 @@ public class VentanaCC extends JFrame {
 		btnVolver.setHorizontalAlignment(JButton.CENTER);
 		
 		espacio = new JLabel("     "); 
+		
+		jb = new JProgressBar(0, 100);
+		jb.setValue(0);
+		jb.setVisible(false);
+		jb.setBackground(Color.WHITE);
+		jb.setForeground(Color.BLUE);
+		jb.setStringPainted(true);
+		
+		
 		//AÑADIR PANELES
 		this.getContentPane().add(pCentro,BorderLayout.CENTER);
 		this.getContentPane().add(pSur,BorderLayout.SOUTH);
@@ -98,6 +111,7 @@ public class VentanaCC extends JFrame {
 		pSur.add(btnAceptar);
 		pSur.add(espacio);
 		pSur.add(btnVolver);
+		this.add(jb,BorderLayout.NORTH);
 		
 		btnVolver.addActionListener((e)->{
 			this.ventanaActual.setVisible(false);
@@ -114,20 +128,48 @@ public class VentanaCC extends JFrame {
 				txtcontr.setText("");
 			}
 			else{
-				String txt =JOptionPane.showInputDialog("Eres estudiante , profesor o del exterior");
-				TipoPersona tp= TipoPersona.valueOf(txt.toUpperCase());
-				Cliente c = new Cliente(em, con, tp);
-				// TODO NECESITAMOS VERIFICAR ALGO MAS?
-				//TODO AÑADIR CLIENTE A LA TABLA/LISTA DE CLIENTES CUANDO LA CREEMOS
-				JOptionPane.showMessageDialog(null, "Tu cuenta ha sido correctamente creada");
-				this.ventanaActual.setVisible(false);
-				this.ventanaAnterior.setVisible(true);
+//				String txt =JOptionPane.showInputDialog("Eres estudiante , profesor o del exterior");
+//				TipoPersona tp= TipoPersona.valueOf(txt.toUpperCase());
+//				Cliente c = new Cliente(em, con, tp);
+//				// TODO NECESITAMOS VERIFICAR ALGO MAS?
+//				//TODO AÑADIR CLIENTE A LA TABLA/LISTA/MAPA DE CLIENTES CUANDO LA CREEMOS
+//				tpro.start();
+//				if(jb.getValue()==100) {
+//				JOptionPane.showMessageDialog(null, "Tu cuenta ha sido correctamente creada");
+//				this.ventanaActual.setVisible(false);
+//				this.ventanaAnterior.setVisible(true);
+//				}
+				jb.setVisible(true);
+				tpro.start();
 				
 			}
 			
 		});
+		this.addWindowListener(new java.awt.event.WindowAdapter() {
+		    @Override
+		    public void windowClosing(java.awt.event.WindowEvent e) {
+		    	ventanaActual.setVisible(false);
+		        ventanaAnterior.setVisible(true);  // muestra el Main otra vez
+		    }
+		});
 		
+		
+		 tpro = new Thread(()->{
+			
+			    for (int i = 0; i <= 100; i++) {
+			       jb.setValue(i);
+			        try { 
+			        	Thread.sleep(20); 
+			        } catch (InterruptedException ex) {
+			        	}
+			        }
+			    this.ventanaActual.setVisible(false);
+  		    	this.ventanaAnterior.setVisible(true);
+			    JOptionPane.showMessageDialog(null, "Tu cuenta ha sido correctamente creada");
+		 });
 		this.setVisible(true);
-	}
+	
 
+		 
+	}
 }

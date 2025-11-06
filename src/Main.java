@@ -22,6 +22,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
 
@@ -31,6 +32,8 @@ public class Main extends  JFrame {
 	protected JLabel titulo, log, l1, texto_principal, espacio1, espacio2;
 	private boolean pararImg;
 	private JFrame ventanaActual;
+	private JProgressBar jb;
+	private Thread tpro;
 	
 	
 	public Main() {
@@ -77,6 +80,13 @@ public class Main extends  JFrame {
 		titulo = new JLabel("Deustorante");
 		titulo.setSize(20, 20);
 		titulo.setFont(new Font(Font.DIALOG, Font.BOLD, 30));
+		
+		jb = new JProgressBar(0, 100);
+		jb.setValue(0);
+		jb.setVisible(false);
+		jb.setBackground(Color.WHITE);
+		jb.setForeground(Color.BLUE);
+		jb.setStringPainted(true);
 		
 		espacio1 = new JLabel("            ");
 		
@@ -161,7 +171,8 @@ public class Main extends  JFrame {
 		pBotonesCentro.add(btnCarta_normal);
 		pBotonesCentro.add(Box.createRigidArea(new Dimension(20, 0)));
 		pBotonesCentro.add(btnCarta_pedido);
-		pCentro.add(pBotonesCentro);		
+		pCentro.add(pBotonesCentro);
+		pSur.add(jb);
 		
 		
 		
@@ -208,7 +219,10 @@ public class Main extends  JFrame {
 					TipoPersona p = TipoPersona.valueOf(per.toUpperCase());
 					Cliente c = new Cliente(em, "", p);
 					Reserva r = new Reserva(num, c);
+					jb.setVisible(true);
+					tpro.start();
 					new VentanaReserva(ventanaActual,r);
+					
 					
 				} catch (NumberFormatException err) {
 					this.dispose();
@@ -268,6 +282,20 @@ public class Main extends  JFrame {
 		
         Thread cambImg = new Thread(rImg);
 		cambImg.start();
+		
+		 tpro = new Thread(()->{
+				
+			    for (int i = 0; i <= 100; i++) {
+			       jb.setValue(i);
+			        try { 
+			        	Thread.sleep(20); 
+			        } catch (InterruptedException ex) {
+			        	}
+			        }
+			    jb.setVisible(false);
+			    JOptionPane.showMessageDialog(null, "Reserva creada");
+			    
+		 });
 		
 		this.setVisible(true);
       

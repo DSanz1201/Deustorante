@@ -9,7 +9,7 @@ public class ModeloReserva extends DefaultTableModel{
 	
 	
 	public ModeloReserva() {
-		matriz = new Reserva[13][5];
+		matriz = new Reserva[13][6];
 	}
 	
 	@Override
@@ -37,17 +37,24 @@ public class ModeloReserva extends DefaultTableModel{
 	}
 	@Override
 	public Object getValueAt(int row, int column) {
-		// TODO Auto-generated method stub
-		if(column ==0) {
-			 String s = String.format("%02d:00", row+10);
-			return s;
-		} else {
-			Reserva r = matriz[row][column-1];
-			return r;
-		}
+	    if (column == 0) {
+	      
+	        return String.format("%02d:00", row + 10);
+	    }
+
+	    int colMatriz = column - 1;
+
+	    
+	    if (row < 0 || row >= matriz.length || colMatriz < 0 || colMatriz >= matriz[0].length) {
+	        return null;
+	    }
+	    else {
+	    return matriz[row][colMatriz];
+	    }
 	}
 	// TODO METODO SET
 	public void actualizarModelo(int row, int column,Reserva r) {
-		
+		matriz[row][column] =r;
 	}
+	
 }
