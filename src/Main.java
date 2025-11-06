@@ -198,7 +198,7 @@ public class Main extends  JFrame {
 				try {
 				ventanaActual.setVisible(false);
 				String datos = JOptionPane.showInputDialog(
-						"Ingrese su número de personasy email separados por coma:\n, correo@gmail.com"
+						"Ingrese su número de personas y email separados por coma:\n correo@gmail.com"
 					);
 
 					String[] partes = datos.split(",");
@@ -224,7 +224,7 @@ public class Main extends  JFrame {
 					new VentanaReserva(ventanaActual,r);
 					
 					
-				} catch (NumberFormatException err) {
+				} catch (Exception err) {
 					this.dispose();
 					new Main();
 				}
