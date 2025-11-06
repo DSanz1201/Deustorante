@@ -293,7 +293,7 @@ public class Main extends  JFrame {
 			        	}
 			        }
 			    jb.setVisible(false);
-			    JOptionPane.showMessageDialog(null, "Reserva creada");
+			  //  JOptionPane.showMessageDialog(null, "Reserva creada");
 			    
 		 });
 		
