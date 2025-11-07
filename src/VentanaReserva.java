@@ -83,6 +83,7 @@ public class VentanaReserva extends JFrame{
 			public void mouseExited(MouseEvent e) {
 				fila =-1;
 				columna =-1;
+				tabla.repaint();
 				
 			}
 			
@@ -99,6 +100,9 @@ public class VentanaReserva extends JFrame{
 				columna = tabla.columnAtPoint(p);
 				modelo.actualizarModelo(fila, columna,r);
 				tabla.repaint();
+				JOptionPane.showMessageDialog(null, "Has reservado");
+				ventanaActual.setVisible(false);
+				ventanaAnterior.setVisible(true);
 				
 			}
 		});
@@ -107,7 +111,7 @@ public class VentanaReserva extends JFrame{
 			String[] reposo = {"R","E","P","O","S","O"};
 			JLabel l = new JLabel();
 			l.setOpaque(true);
-			if(row%3==0 && row!=12) {
+			if(row%4==0 && row!=12 ) {
 				//System.out.println(reposo[column]);
 				l.setText(reposo[column]);
 				l.setBackground(Color.GRAY);
@@ -120,7 +124,7 @@ public class VentanaReserva extends JFrame{
 			        l.setFont(new Font("Arial", Font.BOLD, 14));
 			        return l;
 			}
-			if(fila== row && column == columna && column!=0 && row%3==0 && row!=12 ) {
+			if(fila== row && column == columna && column!=0) {
 				l.setBackground(Color.BLUE);
 			}
 

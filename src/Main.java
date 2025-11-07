@@ -30,7 +30,7 @@ public class Main extends  JFrame {
 	private JPanel pCentro, pBotonesCentro, pNorte, pSur, pEste, pOeste;
 	protected JButton btnIS,btnCC, btnReserva, btnCarta_pedido, btnCarta_normal;
 	protected JLabel titulo, log, l1, texto_principal, espacio1, espacio2;
-	private boolean pararImg;
+	private boolean pararImg,cambio,cambio2;
 	private JFrame ventanaActual;
 	private JProgressBar jb;
 	private Thread tpro;
@@ -87,6 +87,9 @@ public class Main extends  JFrame {
 		jb.setBackground(Color.WHITE);
 		jb.setForeground(Color.BLUE);
 		jb.setStringPainted(true);
+		
+		cambio = false;
+		//cambio2=false;
 		
 		espacio1 = new JLabel("            ");
 		
@@ -178,7 +181,11 @@ public class Main extends  JFrame {
 		
 		// listeners
 		btnCC.addActionListener((e)->{
-			if(!pararImg) {
+			if(!cambio) {
+				cambio=true;
+				btnIS.setText("Cerrar Sesion");
+				btnCC.setEnabled(false);
+				btnCC.setForeground(Color.GRAY);
 				ventanaActual.setVisible(false);
 				new VentanaCC(ventanaActual);
 			}
@@ -186,11 +193,17 @@ public class Main extends  JFrame {
 		});
 		
 		btnIS.addActionListener((e)->{
-			if(!pararImg) {
-				
+			if(!cambio) {
+				cambio=true;
+				btnIS.setText("Cerrar Sesion");
+				btnCC.setEnabled(false);
+				btnCC.setForeground(Color.GRAY);
 			    ventanaActual.setVisible(false);
 			    new VentanaIS(ventanaActual);
+			}else {
+				System.exit(0);
 			}
+				
 		});
 		
 		btnReserva.addActionListener((e)->{

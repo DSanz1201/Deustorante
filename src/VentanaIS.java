@@ -75,7 +75,7 @@ public class VentanaIS extends JFrame{
 		
 		jb = new JProgressBar(0, 100);
 		jb.setValue(0);
-		jb.setVisible(true);
+		jb.setVisible(false);
 		jb.setBackground(Color.WHITE);
 		jb.setForeground(Color.BLUE);
 		jb.setStringPainted(true);
