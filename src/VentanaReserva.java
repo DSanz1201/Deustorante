@@ -132,17 +132,7 @@ public class VentanaReserva extends JFrame{
 			Reserva rCelda = (Reserva) modelo.getValueAt(row, column+1);
 		    if (rCelda != null && column!=0) {
 		        l.setBackground(new Color(144, 238, 144)); // verde claro
-		        l.setText("RESERVADO");
-//		        try {
-//					Thread.sleep(300);
-//				} catch (InterruptedException e1) {
-//					// TODO Auto-generated catch block
-//					e1.printStackTrace();
-//				}
-//		        tabla.repaint();
-//		    	ventanaActual.setVisible(false);
-//		        ventanaAnterior.setVisible(true); 
-		        
+		        l.setText("RESERVADO"); 
 		    } else {
 		        l.setBackground(Color.WHITE);
 		        l.setText("");

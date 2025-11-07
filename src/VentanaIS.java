@@ -100,8 +100,14 @@ public class VentanaIS extends JFrame{
 			String em = txtemail.getText();
 			String cont = txtcontr.getText();
 			// TODO VERIFICAR en un MAPA
-			jb.setVisible(true);
-			tpro.start();
+			if(em.equals("Deusto") && cont.equals("Deusto")) {
+				jb.setVisible(true);
+				tpro.start();
+			} else {
+				JOptionPane.showMessageDialog(null, "Email o contraseña incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
+				txtemail.setText("");
+				txtcontr.setText("");
+			}
 			
 		});
 		this.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -124,7 +130,7 @@ public class VentanaIS extends JFrame{
 			        }
 			    this.ventanaActual.setVisible(false);
 		    	this.ventanaAnterior.setVisible(true);
-			    JOptionPane.showMessageDialog(null, "Bienvedido de nuevo "+txtemail.getText());
+			    JOptionPane.showMessageDialog(null, "Bienvenido de nuevo "+txtemail.getText());
 		 });
 
 			this.setVisible(true);

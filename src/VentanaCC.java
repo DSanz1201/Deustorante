@@ -48,7 +48,7 @@ public class VentanaCC extends JFrame {
 		
 		
 		// CREACION COMPOENENTES
-		// TODO SE PUEDEN HACER MAS PEQUEÑOS
+		// TODO Boxlayouts
 		email = new JLabel("Email");
 		email.setForeground(Color.BLUE);
 		
@@ -128,17 +128,20 @@ public class VentanaCC extends JFrame {
 				txtcontr.setText("");
 			}
 			else{
-//				String txt =JOptionPane.showInputDialog("Eres estudiante , profesor o del exterior");
-//				TipoPersona tp= TipoPersona.valueOf(txt.toUpperCase());
-//				Cliente c = new Cliente(em, con, tp);
-//				// TODO NECESITAMOS VERIFICAR ALGO MAS?
-//				//TODO AÑADIR CLIENTE A LA TABLA/LISTA/MAPA DE CLIENTES CUANDO LA CREEMOS
-//				tpro.start();
-//				if(jb.getValue()==100) {
-//				JOptionPane.showMessageDialog(null, "Tu cuenta ha sido correctamente creada");
-//				this.ventanaActual.setVisible(false);
-//				this.ventanaAnterior.setVisible(true);
-//				}
+				String[] opciones = {"Estudiante", "Profesor", "Externo"};
+				String per = (String) JOptionPane.showInputDialog(
+				    null,
+				    "Seleccione su tipo de persona:",
+				    "Tipo de persona",
+				    JOptionPane.QUESTION_MESSAGE,
+				    null,
+				    opciones,
+				    opciones[0]
+				);
+				TipoPersona p = TipoPersona.valueOf(per.toUpperCase());
+				Cliente c = new Cliente(em, con, p);
+				//System.out.println(c);
+				// TODO AÑADIRLO A LA LIASTA DE CLIENTES
 				jb.setVisible(true);
 				tpro.start();
 				
@@ -152,8 +155,6 @@ public class VentanaCC extends JFrame {
 		        ventanaAnterior.setVisible(true);  // muestra el Main otra vez
 		    }
 		});
-		
-		
 		 tpro = new Thread(()->{
 			
 			    for (int i = 0; i <= 100; i++) {
