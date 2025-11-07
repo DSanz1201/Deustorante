@@ -139,7 +139,6 @@ public class VentanaReserva extends JFrame{
 //					// TODO Auto-generated catch block
 //					e1.printStackTrace();
 //				}
-//		        // TODO COMO HAGO QUE ESPERE
 //		        tabla.repaint();
 //		    	ventanaActual.setVisible(false);
 //		        ventanaAnterior.setVisible(true); 

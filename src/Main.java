@@ -201,6 +201,7 @@ public class Main extends  JFrame {
 			    ventanaActual.setVisible(false);
 			    new VentanaIS(ventanaActual);
 			}else {
+				JOptionPane.showMessageDialog(null, "Cerrando Sesion...");
 				System.exit(0);
 			}
 				
