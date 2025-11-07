@@ -1,6 +1,8 @@
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.MouseAdapter;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -91,6 +93,29 @@ public class Carta_pedido extends JFrame {
 			new Main();
 			JOptionPane.showMessageDialog(null, "Pedido realizado");
 		});
+        
+        MouseAdapter listener = (new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+
+            	String[] opciones = {"1", "2", "3", "4", "5"};
+                JOptionPane.showInputDialog(
+                null,
+                "Seleccione la cantidad deseada del artículo:",
+                "Cantidad",
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                opciones,
+                opciones[0]
+                );
+            }
+        });
+        
+        tabla1.addMouseListener(listener);
+        tabla2.addMouseListener(listener);
+        tabla3.addMouseListener(listener);
+        tabla4.addMouseListener(listener);
+        
 
         add(panel);
 		
