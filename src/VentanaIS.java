@@ -1,9 +1,13 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.util.List;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -25,7 +29,7 @@ public class VentanaIS extends JFrame{
 	private JProgressBar jb;
 	private Thread tpro;
 	
-	public VentanaIS(JFrame va) {
+	public VentanaIS(JFrame va,List<Cliente> clientes) {
 		ventanaAnterior=va;
 		ventanaActual = this;
 	
@@ -35,7 +39,8 @@ public class VentanaIS extends JFrame{
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		
 		
-		pCentro = new JPanel(new GridLayout(4,6,5,5));
+		pCentro = new JPanel();
+		pCentro.setLayout(new BoxLayout(pCentro, BoxLayout.Y_AXIS));
 		pCentro.setOpaque(true);
 		pCentro.setBackground(Color.white);
 		
@@ -80,13 +85,29 @@ public class VentanaIS extends JFrame{
 		jb.setForeground(Color.BLUE);
 		jb.setStringPainted(true);
 		
+		txtemail.setMaximumSize(new Dimension(400, 45));
+		txtcontr.setMaximumSize(new Dimension(400, 45));
+		
+		
+		email.setAlignmentX(Component.CENTER_ALIGNMENT);
+		contrasenya.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+		btnAceptar.setPreferredSize(new Dimension(80, 40));
+		btnVolver.setPreferredSize(new Dimension(80, 40));
+
+
+		
 		this.getContentPane().add(pCentro,BorderLayout.CENTER);
 		this.getContentPane().add(pSur,BorderLayout.SOUTH);
 		
 		pCentro.add(email);
+		pCentro.add(Box.createRigidArea(new Dimension(20, 20)));
 		pCentro.add(txtemail);
+		pCentro.add(Box.createRigidArea(new Dimension(400, 45)));
 		pCentro.add(contrasenya);
+		pCentro.add(Box.createRigidArea(new Dimension(20, 20)));
 		pCentro.add(txtcontr);
+		pCentro.add(Box.createRigidArea(new Dimension(400, 45)));
 		pSur.add(btnAceptar);
 		pSur.add(espacio);
 		pSur.add(btnVolver);
@@ -99,14 +120,19 @@ public class VentanaIS extends JFrame{
 		btnAceptar.addActionListener((e)->{
 			String em = txtemail.getText();
 			String cont = txtcontr.getText();
-			// TODO VERIFICAR en un MAPA
-			if(em.equals("Deusto") && cont.equals("Deusto")) {
-				jb.setVisible(true);
-				tpro.start();
-			} else {
-				JOptionPane.showMessageDialog(null, "Email o contraseña incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
-				txtemail.setText("");
-				txtcontr.setText("");
+			boolean encontrado =false;
+			for(Cliente c : clientes) {
+				if(c.getEmail().equals(em) && c.getContrasenia().equals(cont)) {
+					encontrado=true;
+					jb.setVisible(true);
+					tpro.start();
+					break;
+				}
+			}
+			if(!encontrado) {
+			JOptionPane.showMessageDialog(null, "Email o contraseña incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
+			txtemail.setText("");
+			txtcontr.setText("");
 			}
 			
 		});

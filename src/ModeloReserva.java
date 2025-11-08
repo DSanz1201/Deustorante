@@ -6,8 +6,6 @@ import javax.swing.table.DefaultTableModel;
 public class ModeloReserva extends DefaultTableModel{
 	private List<String> titulos = Arrays.asList("","LUNES","MARTES","MIERCOLES","JUEVES","VIERNES");
 	private Reserva matriz[][];
-	
-	
 	public ModeloReserva() {
 		matriz = new Reserva[13][6];
 	}

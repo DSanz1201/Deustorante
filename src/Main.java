@@ -12,6 +12,8 @@ import java.awt.GridLayout;
 import java.awt.HeadlessException;
 import java.awt.Image;
 import java.awt.Rectangle;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -34,15 +36,17 @@ public class Main extends  JFrame {
 	private JFrame ventanaActual;
 	private JProgressBar jb;
 	private Thread tpro;
+	//private List<Cliente> lClientes;
 	
 	
-	public Main() {
+	public Main( ArrayList<Cliente> clientes) {
 		super();
 		this.setBounds(800,400,600,800);
 		this.setLocationRelativeTo(null);
 		this.setTitle("Deustorante");
 		// creacion de paneles
-		//TODO PONERLES BORDE A TODOS
+
+		
 		pCentro = new  JPanel();
 		pCentro.setLayout(new BoxLayout(pCentro, BoxLayout.Y_AXIS));
 		pCentro.setBackground(Color.WHITE);
@@ -70,7 +74,7 @@ public class Main extends  JFrame {
 		pNorte.setOpaque(true);
 		
 		// creacion de componentes
-		// TODO COMO HACER QUE EL TITULO Y LOGO VAYAN PARA LA IZQUIERDA Y LOS BOTONES A LA DERECHA ( EN EL PANEL NORTE)
+
 		ventanaActual = this;
 		
 		ImageIcon logo = new ImageIcon("images/unnamed.png");
@@ -89,7 +93,7 @@ public class Main extends  JFrame {
 		jb.setStringPainted(true);
 		
 		cambio = false;
-		//cambio2=false;
+		
 		
 		espacio1 = new JLabel("            ");
 		
@@ -187,7 +191,7 @@ public class Main extends  JFrame {
 				btnCC.setEnabled(false);
 				btnCC.setForeground(Color.GRAY);
 				ventanaActual.setVisible(false);
-				new VentanaCC(ventanaActual);
+				new VentanaCC(ventanaActual,clientes);
 			}
 			
 		});
@@ -199,7 +203,7 @@ public class Main extends  JFrame {
 				btnCC.setEnabled(false);
 				btnCC.setForeground(Color.GRAY);
 			    ventanaActual.setVisible(false);
-			    new VentanaIS(ventanaActual);
+			    new VentanaIS(ventanaActual,clientes);
 			}else {
 				JOptionPane.showMessageDialog(null, "Cerrando Sesion...");
 				System.exit(0);
@@ -240,7 +244,7 @@ public class Main extends  JFrame {
 					
 				} catch (Exception err) {
 					this.dispose();
-					new Main();
+					new Main(clientes);
 				}
 			}
 			
@@ -259,7 +263,7 @@ public class Main extends  JFrame {
 			if(!pararImg) {
 				
 				ventanaActual.setVisible(false);
-				new Carta_pedido(ventanaActual);
+				new Carta_pedido(ventanaActual,clientes);
 			}
 			
 		});
@@ -307,7 +311,7 @@ public class Main extends  JFrame {
 			        	}
 			        }
 			    jb.setVisible(false);
-			  //  JOptionPane.showMessageDialog(null, "Reserva creada");
+			 
 			    
 		 });
 		
@@ -317,8 +321,19 @@ public class Main extends  JFrame {
 		
 	}
 	public static void main(String[] args) {
+	List<Cliente>	lClientes = new ArrayList<Cliente>();
+		 Cliente c1 = new Cliente("juan@example.com", "1234juan",null);
+	        Cliente c2 = new Cliente("maria@example.com", "mariaPass",null);
+	        Cliente c3 = new Cliente("pedro@example.com", "pedro_2025",null);
+	        Cliente c4 = new Cliente("laura@example.com", "lauraSegura",null);
+	        Cliente c5 = new Cliente("ana@example.com", "anaClave",null);
+	        lClientes.add(c5);
+	        lClientes.add(c4);
+	        lClientes.add(c3);
+	        lClientes.add(c2);
+	        lClientes.add(c1);
 		SwingUtilities.invokeLater(()->{
-			new Main();
+			new Main((ArrayList<Cliente>) lClientes);
 		});
 	}
 	

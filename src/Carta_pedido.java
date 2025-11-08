@@ -3,6 +3,8 @@ import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -18,8 +20,9 @@ public class Carta_pedido extends JFrame {
 	private JFrame ventanaAnterior;
 	private JFrame ventanaActual;
 	private JPanel pCentro,pSur;
+	 private List<Cliente> clientes;
 	
-	public Carta_pedido(JFrame va) {
+	public Carta_pedido(JFrame va,List<Cliente> clientes) {
 		ventanaAnterior=va;
 		ventanaActual = this;
 		this.setTitle("Pedido");
@@ -28,6 +31,7 @@ public class Carta_pedido extends JFrame {
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		this.setLocationRelativeTo(null);
+		this.clientes = clientes;
 		
 		Object[][] datos1 = {
 				//Entrantes
@@ -90,7 +94,7 @@ public class Carta_pedido extends JFrame {
         
         finalizar_compra.addActionListener((e)->{
 			ventanaActual.setVisible(false);
-			new Main();
+			new Main((ArrayList<Cliente>) clientes);
 			JOptionPane.showMessageDialog(null, "Pedido realizado");
 		});
         

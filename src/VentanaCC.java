@@ -5,7 +5,10 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.util.List;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -30,7 +33,7 @@ public class VentanaCC extends JFrame {
 	private Thread tpro;
 	
 	
-	public VentanaCC(JFrame ventanaActual2) {
+	public VentanaCC(JFrame ventanaActual2,List<Cliente> clientes) {
 		super();
 		ventanaAnterior = ventanaActual2;
 		ventanaActual = this;
@@ -38,7 +41,8 @@ public class VentanaCC extends JFrame {
 		this.setBounds(300, 200, 600, 400);
 		this.setVisible(true);
 		// CREACION PANELES
-		pCentro = new JPanel(new GridLayout(6,1,5,5));
+		pCentro = new JPanel();
+		pCentro.setLayout(new BoxLayout(pCentro, BoxLayout.Y_AXIS));
 		pCentro.setOpaque(true);
 		pCentro.setBackground(Color.white);
 		
@@ -51,6 +55,7 @@ public class VentanaCC extends JFrame {
 		// TODO Boxlayouts
 		email = new JLabel("Email");
 		email.setForeground(Color.BLUE);
+		
 		
 		
 		
@@ -78,6 +83,9 @@ public class VentanaCC extends JFrame {
 		btnAceptar.setBorder(new LineBorder(Color.BLUE));
 		btnAceptar.setHorizontalAlignment(JButton.CENTER);
 		
+		txtemail.setMaximumSize(new Dimension(400, 30));
+		txtcontr.setMaximumSize(new Dimension(400, 30));
+		txtrep.setMaximumSize(new Dimension(400, 30));
 		
 		btnVolver = new JButton("Volver");
 		btnVolver.setOpaque(true);
@@ -95,6 +103,16 @@ public class VentanaCC extends JFrame {
 		jb.setForeground(Color.BLUE);
 		jb.setStringPainted(true);
 		
+		txtemail.setMaximumSize(new Dimension(400, 45));
+		txtcontr.setMaximumSize(new Dimension(400, 45));
+		txtrep.setMaximumSize(new Dimension(400, 45));
+		
+		email.setAlignmentX(Component.CENTER_ALIGNMENT);
+		contrasenya.setAlignmentX(Component.CENTER_ALIGNMENT);
+		repetir.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
+		btnAceptar.setPreferredSize(new Dimension(80, 40));
+		btnVolver.setPreferredSize(new Dimension(80, 40));
 		
 		//AÑADIR PANELES
 		this.getContentPane().add(pCentro,BorderLayout.CENTER);
@@ -103,14 +121,22 @@ public class VentanaCC extends JFrame {
 		
 		// AÑADIR COMPONENTES
 		pCentro.add(email);
+		pCentro.add(Box.createRigidArea(new Dimension(20, 20)));
 		pCentro.add(txtemail);
+		pCentro.add(Box.createRigidArea(new Dimension(400, 45)));
 		pCentro.add(contrasenya);
+		pCentro.add(Box.createRigidArea(new Dimension(20, 20)));
 		pCentro.add(txtcontr);
+		pCentro.add(Box.createRigidArea(new Dimension(400, 45)));
 		pCentro.add(repetir);
+		pCentro.add(Box.createRigidArea(new Dimension(20, 20)));
 		pCentro.add(txtrep);
+		pCentro.add(Box.createRigidArea(new Dimension(400, 45)));
+		
 		pSur.add(btnAceptar);
 		pSur.add(espacio);
 		pSur.add(btnVolver);
+	
 		this.add(jb,BorderLayout.NORTH);
 		
 		btnVolver.addActionListener((e)->{
@@ -140,8 +166,8 @@ public class VentanaCC extends JFrame {
 				);
 				TipoPersona p = TipoPersona.valueOf(per.toUpperCase());
 				Cliente c = new Cliente(em, con, p);
-				//System.out.println(c);
-				// TODO AÑADIRLO A LA LIASTA DE CLIENTES
+				clientes.add(c);
+				//System.out.println(clientes);
 				jb.setVisible(true);
 				tpro.start();
 				
