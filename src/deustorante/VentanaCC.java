@@ -1,9 +1,11 @@
+package deustorante;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.util.List;
 
 import javax.swing.Box;
@@ -16,53 +18,65 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JProgressBar;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
-public class VentanaIS extends JFrame{
+public class VentanaCC extends JFrame {
+	private static final long MAX_VALUE = 10_000_000;
 	private JFrame ventanaAnterior;
 	private JFrame ventanaActual;
 	private JPanel pCentro,pSur;
-	private JLabel email,contrasenya,espacio;
+	private JLabel email,contrasenya,repetir,espacio;
 	private JTextField txtemail;
-	private JPasswordField txtcontr;
+	private JPasswordField txtrep,txtcontr;
 	private JButton btnVolver,btnAceptar;
-	private JProgressBar jb;
+	private JProgressBar jb ;
 	private Thread tpro;
 	
-	public VentanaIS(JFrame va,List<Cliente> clientes) {
-		ventanaAnterior=va;
-		ventanaActual = this;
 	
-		this.setTitle("Iniciar Sesión");
-		this.setBounds(200,400,600,300);
+	public VentanaCC(JFrame ventanaActual2,List<Cliente> clientes) {
+		super();
+		ventanaAnterior = ventanaActual2;
+		ventanaActual = this;
+		this.setTitle("Creacion de Cuenta Deustorante");
+		this.setBounds(300, 200, 600, 400);
 		this.setVisible(true);
-		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-		
-		
+		// CREACION PANELES
 		pCentro = new JPanel();
 		pCentro.setLayout(new BoxLayout(pCentro, BoxLayout.Y_AXIS));
 		pCentro.setOpaque(true);
 		pCentro.setBackground(Color.white);
 		
-		
 		pSur = new JPanel();
 		pSur.setOpaque(true);
-		pSur.setBackground(Color.WHITE);
+		pSur.setBackground(Color.white);
 		
-		espacio = new JLabel("        ");
 		
-	    email = new JLabel("Email");
-	    email.setFont(new Font(Font.DIALOG, Font.BOLD, 15));
-	    
+		// CREACION COMPOENENTES
+		// TODO Boxlayouts
+		email = new JLabel("Email");
+		email.setForeground(Color.BLUE);
+		
+		
+		
+		
 		contrasenya = new JLabel("Contraseña");
-		contrasenya.setFont(new Font(Font.DIALOG, Font.BOLD, 15));
+		contrasenya.setForeground(Color.BLUE);
 		
-		txtcontr = new JPasswordField(10);
+		repetir = new JLabel("Confirmar Contraseña");
+		repetir.setForeground(Color.BLUE);
+		
+		txtcontr = new JPasswordField(20);
 		txtcontr.setBorder(new LineBorder(Color.BLUE));
 		
-		txtemail= new JTextField(20);
-		txtemail.setBorder(new LineBorder(Color.blue));
 		
+		txtemail= new JTextField(20);
+		txtemail.setMaximumSize(new Dimension(5,5));
+		txtemail.setBorder(new LineBorder(Color.BLUE));
+		
+		txtrep = new JPasswordField(10);
+		txtrep.setBorder(new LineBorder(Color.BLUE));
+	
 		btnAceptar = new JButton("Aceptar");
 		btnAceptar.setOpaque(true);
 		btnAceptar.setBackground(Color.WHITE);
@@ -70,13 +84,18 @@ public class VentanaIS extends JFrame{
 		btnAceptar.setBorder(new LineBorder(Color.BLUE));
 		btnAceptar.setHorizontalAlignment(JButton.CENTER);
 		
+		txtemail.setMaximumSize(new Dimension(400, 30));
+		txtcontr.setMaximumSize(new Dimension(400, 30));
+		txtrep.setMaximumSize(new Dimension(400, 30));
 		
 		btnVolver = new JButton("Volver");
-		btnVolver.setOpaque(false);
+		btnVolver.setOpaque(true);
 		btnVolver.setBackground(Color.WHITE);
 		btnVolver.setForeground(Color.BLUE);
 		btnVolver.setBorder(new LineBorder(Color.BLUE));
 		btnVolver.setHorizontalAlignment(JButton.CENTER);
+		
+		espacio = new JLabel("     "); 
 		
 		jb = new JProgressBar(0, 100);
 		jb.setValue(0);
@@ -87,19 +106,21 @@ public class VentanaIS extends JFrame{
 		
 		txtemail.setMaximumSize(new Dimension(400, 45));
 		txtcontr.setMaximumSize(new Dimension(400, 45));
-		
+		txtrep.setMaximumSize(new Dimension(400, 45));
 		
 		email.setAlignmentX(Component.CENTER_ALIGNMENT);
 		contrasenya.setAlignmentX(Component.CENTER_ALIGNMENT);
-
+		repetir.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
 		btnAceptar.setPreferredSize(new Dimension(80, 40));
 		btnVolver.setPreferredSize(new Dimension(80, 40));
-
-
 		
+		//AÑADIR PANELES
 		this.getContentPane().add(pCentro,BorderLayout.CENTER);
 		this.getContentPane().add(pSur,BorderLayout.SOUTH);
 		
+		
+		// AÑADIR COMPONENTES
 		pCentro.add(email);
 		pCentro.add(Box.createRigidArea(new Dimension(20, 20)));
 		pCentro.add(txtemail);
@@ -108,31 +129,49 @@ public class VentanaIS extends JFrame{
 		pCentro.add(Box.createRigidArea(new Dimension(20, 20)));
 		pCentro.add(txtcontr);
 		pCentro.add(Box.createRigidArea(new Dimension(400, 45)));
+		pCentro.add(repetir);
+		pCentro.add(Box.createRigidArea(new Dimension(20, 20)));
+		pCentro.add(txtrep);
+		pCentro.add(Box.createRigidArea(new Dimension(400, 45)));
+		
 		pSur.add(btnAceptar);
 		pSur.add(espacio);
 		pSur.add(btnVolver);
+	
 		this.add(jb,BorderLayout.NORTH);
 		
 		btnVolver.addActionListener((e)->{
 			this.ventanaActual.setVisible(false);
 			this.ventanaAnterior.setVisible(true);
 		});
+		
 		btnAceptar.addActionListener((e)->{
 			String em = txtemail.getText();
-			String cont = txtcontr.getText();
-			boolean encontrado =false;
-			for(Cliente c : clientes) {
-				if(c.getEmail().equals(em) && c.getContrasenia().equals(cont)) {
-					encontrado=true;
-					jb.setVisible(true);
-					tpro.start();
-					break;
-				}
+			String con = txtcontr.getText();
+			String rep = txtrep.getText();
+			if(!con.equals(rep)) {
+				JOptionPane.showMessageDialog(null, "Nombre o contraseña incorrecto", "Error", JOptionPane.ERROR_MESSAGE);
+				txtrep.setText("");
+				txtcontr.setText("");
 			}
-			if(!encontrado) {
-			JOptionPane.showMessageDialog(null, "Email o contraseña incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
-			txtemail.setText("");
-			txtcontr.setText("");
+			else{
+				String[] opciones = {"Estudiante", "Profesor", "Externo"};
+				String per = (String) JOptionPane.showInputDialog(
+				    null,
+				    "Seleccione su tipo de persona:",
+				    "Tipo de persona",
+				    JOptionPane.QUESTION_MESSAGE,
+				    null,
+				    opciones,
+				    opciones[0]
+				);
+				TipoPersona p = TipoPersona.valueOf(per.toUpperCase());
+				Cliente c = new Cliente(em, con, p);
+				clientes.add(c);
+				//System.out.println(clientes);
+				jb.setVisible(true);
+				tpro.start();
+				
 			}
 			
 		});
@@ -143,10 +182,8 @@ public class VentanaIS extends JFrame{
 		        ventanaAnterior.setVisible(true);  // muestra el Main otra vez
 		    }
 		});
-		
-		
 		 tpro = new Thread(()->{
-				
+			
 			    for (int i = 0; i <= 100; i++) {
 			       jb.setValue(i);
 			        try { 
@@ -155,13 +192,12 @@ public class VentanaIS extends JFrame{
 			        	}
 			        }
 			    this.ventanaActual.setVisible(false);
-		    	this.ventanaAnterior.setVisible(true);
-			    JOptionPane.showMessageDialog(null, "Bienvenido de nuevo "+txtemail.getText());
+  		    	this.ventanaAnterior.setVisible(true);
+			    JOptionPane.showMessageDialog(null, "Tu cuenta ha sido correctamente creada");
 		 });
+		this.setVisible(true);
+	
 
-			this.setVisible(true);
+		 
 	}
-	
-	
-	
 }
