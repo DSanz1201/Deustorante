@@ -95,7 +95,7 @@ public class Carta_pedido extends JFrame {
         
         finalizar_compra.addActionListener((e)->{
 			ventanaActual.setVisible(false);
-			new Main((ArrayList<Cliente>) clientes);
+			new Main((ArrayList<Cliente>) clientes, null);
 			JOptionPane.showMessageDialog(null, "Pedido realizado");
 		});
         

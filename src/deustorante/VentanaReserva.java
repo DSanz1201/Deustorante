@@ -23,12 +23,14 @@ public class VentanaReserva extends JFrame{
 	private ModeloReserva modelo;
 	private JTable tabla;
 	private int fila,columna;
-
+	private BD bd;
 
 
 	
-	public VentanaReserva(JFrame va,Reserva r) {
+	public VentanaReserva(JFrame va,Reserva r, BD bd) {
 		super();
+		this.bd = bd;
+
 		this.ventanaActual = this;
 		this.ventanaAnterior = va;
 		this.setTitle("Reserva");
@@ -101,6 +103,7 @@ public class VentanaReserva extends JFrame{
 				columna = tabla.columnAtPoint(p);
 				modelo.actualizarModelo(fila, columna,r);
 				tabla.repaint();
+				bd.insertarReserva(r);
 				JOptionPane.showMessageDialog(null, "Has reservado");
 				ventanaActual.setVisible(false);
 				ventanaAnterior.setVisible(true);

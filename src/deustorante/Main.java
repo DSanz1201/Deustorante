@@ -37,10 +37,9 @@ public class Main extends  JFrame {
 	private JFrame ventanaActual;
 	private JProgressBar jb;
 	private Thread tpro;
-	//private List<Cliente> lClientes;
 	
 	
-	public Main( ArrayList<Cliente> clientes) {
+	public Main( ArrayList<Cliente> clientes, BD bd) {
 		super();
 		this.setBounds(800,400,600,800);
 		this.setLocationRelativeTo(null);
@@ -182,7 +181,13 @@ public class Main extends  JFrame {
 		pCentro.add(pBotonesCentro);
 		pSur.add(jb);
 		
+		// Bases de Datos
+	
 		
+//		for(Cliente c : clientes) {
+//			bd.insertarCliente(c);
+//		}
+//		System.out.println("Insertando");
 		
 		// listeners
 		btnCC.addActionListener((e)->{
@@ -192,7 +197,7 @@ public class Main extends  JFrame {
 				btnCC.setEnabled(false);
 				btnCC.setForeground(Color.GRAY);
 				ventanaActual.setVisible(false);
-				new VentanaCC(ventanaActual,clientes);
+				new VentanaCC(ventanaActual,clientes,bd);
 			}
 			
 		});
@@ -240,12 +245,12 @@ public class Main extends  JFrame {
 					Reserva r = new Reserva(num, c);
 					jb.setVisible(true);
 					tpro.start();
-					new VentanaReserva(ventanaActual,r);
+					new VentanaReserva(ventanaActual,r, bd);
 					
 					
 				} catch (Exception err) {
 					this.dispose();
-					new Main(clientes);
+					//new Main(clientes);
 				}
 			}
 			
@@ -323,20 +328,30 @@ public class Main extends  JFrame {
 	}
 	public static void main(String[] args) {
 	List<Cliente>	lClientes = new ArrayList<Cliente>();
-		 Cliente c1 = new Cliente("juan@example.com", "1234juan",null);
-	        Cliente c2 = new Cliente("maria@example.com", "mariaPass",null);
-	        Cliente c3 = new Cliente("pedro@example.com", "pedro_2025",null);
-	        Cliente c4 = new Cliente("laura@example.com", "lauraSegura",null);
-	        Cliente c5 = new Cliente("ana@example.com", "anaClave",null);
+		 Cliente c1 = new Cliente("juan@example.com", "1234juan",TipoPersona.ESTUDIANTE);
+	        Cliente c2 = new Cliente("maria@example.com", "mariaPass",TipoPersona.PROFESOR);
+	        Cliente c3 = new Cliente("pedro@example.com", "pedro_2025",TipoPersona.EXTERNO);
+	        Cliente c4 = new Cliente("laura@example.com", "lauraSegura",TipoPersona.PROFESOR);
+	        Cliente c5 = new Cliente("ana@example.com", "anaClave",TipoPersona.ESTUDIANTE);
 	        lClientes.add(c5);
 	        lClientes.add(c4);
 	        lClientes.add(c3);
 	        lClientes.add(c2);
 	        lClientes.add(c1);
 		SwingUtilities.invokeLater(()->{
-			new Main((ArrayList<Cliente>) lClientes);
+		  BD	bd = new BD();
+			bd.initBD("Deustorante.db");
+			bd.crearTablas();
+			new Main((ArrayList<Cliente>) lClientes,bd);
 		});
 	}
+	//DUDAS
 	
+	// COMO IMPLEMENTO METODOS CORRECTAMENTE FUERA DE AQUI
+	// PQ NO INSERTA CORRECTAMENTE LOS CLIENTES
+	// COMO HAGO LO DE LA LISTA( INCLUYO EN EL INSERT LA LISTA CON ADD
+	// LO MISMO CON RESERVA
+	
+	// SE MANTENDRA LO PUESTO EN RESERVA CON EL COLOR DE FONDO VERDE Y ASI
 
 }

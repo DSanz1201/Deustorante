@@ -32,9 +32,9 @@ public class VentanaCC extends JFrame {
 	private JButton btnVolver,btnAceptar;
 	private JProgressBar jb ;
 	private Thread tpro;
+	private BD bd;
 	
-	
-	public VentanaCC(JFrame ventanaActual2,List<Cliente> clientes) {
+	public VentanaCC(JFrame ventanaActual2,List<Cliente> clientes, BD bd) {
 		super();
 		ventanaAnterior = ventanaActual2;
 		ventanaActual = this;
@@ -53,7 +53,7 @@ public class VentanaCC extends JFrame {
 		
 		
 		// CREACION COMPOENENTES
-		// TODO Boxlayouts
+		this.bd =bd;
 		email = new JLabel("Email");
 		email.setForeground(Color.BLUE);
 		
@@ -167,6 +167,7 @@ public class VentanaCC extends JFrame {
 				);
 				TipoPersona p = TipoPersona.valueOf(per.toUpperCase());
 				Cliente c = new Cliente(em, con, p);
+				bd.insertarCliente(c);
 				clientes.add(c);
 				//System.out.println(clientes);
 				jb.setVisible(true);

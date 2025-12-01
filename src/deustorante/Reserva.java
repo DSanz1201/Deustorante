@@ -15,6 +15,8 @@ public class Reserva  {
 	private static int cont;
 	private int numPersona, cod;
 	private Cliente clienteResponsable;
+	
+	
 	public Reserva() {
 		super();
 		// TODO Auto-generated constructor stub
