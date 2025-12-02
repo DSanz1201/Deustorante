@@ -13,7 +13,9 @@ import java.awt.GridLayout;
 import java.awt.HeadlessException;
 import java.awt.Image;
 import java.awt.Rectangle;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.Box;
@@ -32,11 +34,11 @@ import javax.swing.border.LineBorder;
 public class Main extends  JFrame {
 	private JPanel pCentro, pBotonesCentro, pNorte, pSur, pEste, pOeste;
 	protected JButton btnIS,btnCC, btnReserva, btnCarta_pedido, btnCarta_normal;
-	protected JLabel titulo, log, l1, texto_principal, espacio1, espacio2;
+	protected JLabel titulo, log, l1, texto_principal, espacio1, espacio2,hora;
 	private boolean pararImg,cambio,cambio2;
 	private JFrame ventanaActual;
 	private JProgressBar jb;
-	private Thread tpro;
+	private Thread tpro,thora;
 	
 	
 	public Main( ArrayList<Cliente> clientes, BD bd) {
@@ -76,6 +78,10 @@ public class Main extends  JFrame {
 		// creacion de componentes
 
 		ventanaActual = this;
+		
+		hora = new JLabel();
+		hora.setForeground(Color.WHITE);
+		hora.setFont(new Font("Arial", Font.BOLD, 15));
 		
 		ImageIcon logo = new ImageIcon("images/unnamed.png");
 		Image imgLog = logo.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
@@ -179,7 +185,8 @@ public class Main extends  JFrame {
 		pBotonesCentro.add(Box.createRigidArea(new Dimension(20, 0)));
 		pBotonesCentro.add(btnCarta_pedido);
 		pCentro.add(pBotonesCentro);
-		pSur.add(jb);
+		//pSur.add(jb);
+		pSur.add(hora);
 		
 		// Bases de Datos
 	
@@ -276,6 +283,28 @@ public class Main extends  JFrame {
 		
 		
 		// hilos
+		
+	   Runnable rhora = new Runnable() {
+			
+			@Override
+			public void run() {
+				while(true) {
+					// objeto que permite dar fomato a fecha y hora
+					SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss"); // cada letra implica el numero de digitos
+					// obtener fecha hora sistema
+					long sillis = System.currentTimeMillis(); // devuelve la fecha hora en milisegundos
+					Date fechaActual = new Date(sillis);     // coger el de java.util
+					//convertimos a string con formato fhecha hira segund
+			     	String s = sdf.format(fechaActual);
+			     	// si quisieramos poner titulo en cada cosa, habria q coger s y tratarlo como tostring y separando el sdf
+			     	hora.setText(s);
+				
+				}
+				
+			}
+		};
+		Thread thora = new Thread(rhora);
+		thora.start();
 		
 		Runnable rImg = new Runnable() { 
 			

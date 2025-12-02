@@ -45,15 +45,15 @@ private Connection con; //Nos conectarmos a la base de datos
 		        + "COD_RESERVA INTEGER PRIMARY KEY AUTOINCREMENT, "
 		        + "NUM_PERSONA INTEGER, "
 		        + "EMAIL_CLIENTE TEXT, "
-		        + "FOREIGN KEY(EMAIL_CLIENTE) REFERENCES CLIENTE(EMAIL)"
+		        + "FOREIGN KEY (EMAIL_CLIENTE) REFERENCES CLIENTE(EMAIL)"
 		        + ")";
 		try {
 			PreparedStatement ps = con.prepareStatement(sqlCliente);
-			ps.execute();
+			ps.executeUpdate();
 
 			
 			ps =  con.prepareStatement(sqlReserva);
-			ps.execute();
+			ps.executeUpdate();
 
 			
 			ps.close();
@@ -71,7 +71,7 @@ private Connection con; //Nos conectarmos a la base de datos
 			ps.setString(1, c.getEmail());
 			ps.setString(2, c.getContrasenia());
 			ps.setString(3, c.getTipo().toString());
-			ps.execute();
+			ps.executeUpdate();
 			ps.close();
 			con.close();
 		} catch (SQLException e) {
@@ -82,6 +82,19 @@ private Connection con; //Nos conectarmos a la base de datos
 	}
 	// metodo para insertat una reserva en la BD
 	public void insertarReserva(Reserva r) {
+		String sql = "INSERT INTO RESERVA (NUM_PERSONA,EMAIL_CLIENTE) VALUES(?,?)";
 		
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setInt(1, r.getNumPersona());
+			ps.setString(2, r.getClienteResponsable().getEmail());
+			ps.executeUpdate();
+			ps.close();
+			con.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
+	
 }

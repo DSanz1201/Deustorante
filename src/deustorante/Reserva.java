@@ -17,6 +17,24 @@ public class Reserva  {
 	private Cliente clienteResponsable;
 	
 	
+	/**
+	 * @return the cod
+	 */
+	public int getCod() {
+		return cod;
+	}
+	/**
+	 * @param cod the cod to set
+	 */
+	public void setCod(int cod) {
+		this.cod = cod;
+	}
+	/**
+	 * @return the numPersona
+	 */
+	public int getNumPersona() {
+		return numPersona;
+	}
 	public Reserva() {
 		super();
 		// TODO Auto-generated constructor stub
