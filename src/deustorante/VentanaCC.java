@@ -33,8 +33,9 @@ public class VentanaCC extends JFrame {
 	private JProgressBar jb ;
 	private Thread tpro;
 	private BD bd;
+	private Main main;
 	
-	public VentanaCC(JFrame ventanaActual2,List<Cliente> clientes, BD bd) {
+	public VentanaCC(JFrame ventanaActual2, BD bd,Main main) {
 		super();
 		ventanaAnterior = ventanaActual2;
 		ventanaActual = this;
@@ -53,12 +54,10 @@ public class VentanaCC extends JFrame {
 		
 		
 		// CREACION COMPOENENTES
+		this.main=main;
 		this.bd =bd;
 		email = new JLabel("Email");
 		email.setForeground(Color.BLUE);
-		
-		
-		
 		
 		contrasenya = new JLabel("Contraseña");
 		contrasenya.setForeground(Color.BLUE);
@@ -149,7 +148,7 @@ public class VentanaCC extends JFrame {
 			String em = txtemail.getText();
 			String con = txtcontr.getText();
 			String rep = txtrep.getText();
-			if(!con.equals(rep)) {
+			if(!con.equals(rep) || con.equals("") || em.equals("")) {
 				JOptionPane.showMessageDialog(null, "Nombre o contraseña incorrecto", "Error", JOptionPane.ERROR_MESSAGE);
 				txtrep.setText("");
 				txtcontr.setText("");
@@ -167,11 +166,16 @@ public class VentanaCC extends JFrame {
 				);
 				TipoPersona p = TipoPersona.valueOf(per.toUpperCase());
 				Cliente c = new Cliente(em, con, p);
-				bd.insertarCliente(c);
-				clientes.add(c);
-				//System.out.println(clientes);
-				jb.setVisible(true);
-				tpro.start();
+				if(bd.comprobarCliente(c.getEmail(),c.getContrasenia())) {
+					JOptionPane.showMessageDialog(null, "Usuario ya existente", "Error",JOptionPane.ERROR_MESSAGE);
+					ventanaActual.setVisible(false);
+			        ventanaAnterior.setVisible(true); 
+				} else {
+					 bd.insertarCliente(c);
+					 main.loginCorrecto();
+					 jb.setVisible(true);
+					 tpro.start();
+				}
 				
 			}
 			

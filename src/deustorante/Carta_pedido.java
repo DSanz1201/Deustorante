@@ -21,9 +21,9 @@ public class Carta_pedido extends JFrame {
 	private JFrame ventanaAnterior;
 	private JFrame ventanaActual;
 	private JPanel pCentro,pSur;
-	 private List<Cliente> clientes;
+//	 private List<Cliente> clientes;
 	
-	public Carta_pedido(JFrame va,List<Cliente> clientes) {
+	public Carta_pedido(JFrame va) {
 		ventanaAnterior=va;
 		ventanaActual = this;
 		this.setTitle("Pedido");
@@ -32,7 +32,7 @@ public class Carta_pedido extends JFrame {
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		this.setLocationRelativeTo(null);
-		this.clientes = clientes;
+	//	this.clientes = clientes;
 		
 		Object[][] datos1 = {
 				//Entrantes
@@ -95,7 +95,7 @@ public class Carta_pedido extends JFrame {
         
         finalizar_compra.addActionListener((e)->{
 			ventanaActual.setVisible(false);
-			new Main((ArrayList<Cliente>) clientes, null);
+			ventanaAnterior.setVisible(true);
 			JOptionPane.showMessageDialog(null, "Pedido realizado");
 		});
         

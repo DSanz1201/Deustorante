@@ -1,11 +1,11 @@
 package deustorante;
 
-import java.awt.Taskbar.State;
 import java.beans.Statement;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class BD {
@@ -62,6 +62,27 @@ private Connection con; //Nos conectarmos a la base de datos
 			e.printStackTrace();
 		}
 	}
+	// metodo que comprueba si el cliente esta en la BD
+	public boolean comprobarCliente(String email,String contr) {
+		boolean enc =false;
+		String sql = "SELECT * FROM CLIENTE WHERE EMAIL=? AND CONTRASENIA=?";
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, email);
+			ps.setString(2, contr);
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()) {
+				enc=true;
+			}
+			rs.close();
+			ps.close();
+	
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return enc;
+		
+	}
 	// metodo que inserta un cliente en la BD
 	public void insertarCliente(Cliente c) {
 		String sql = "INSERT INTO CLIENTE (EMAIL,CONTRASENIA,TIPO_PERSONA) VALUES(?,?,?)";
@@ -73,7 +94,7 @@ private Connection con; //Nos conectarmos a la base de datos
 			ps.setString(3, c.getTipo().toString());
 			ps.executeUpdate();
 			ps.close();
-			con.close();
+
 		} catch (SQLException e) {
 
 		  e.printStackTrace();
@@ -90,9 +111,8 @@ private Connection con; //Nos conectarmos a la base de datos
 			ps.setString(2, r.getClienteResponsable().getEmail());
 			ps.executeUpdate();
 			ps.close();
-			con.close();
+
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

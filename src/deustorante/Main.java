@@ -41,7 +41,8 @@ public class Main extends  JFrame {
 	private Thread tpro,thora;
 	
 	
-	public Main( ArrayList<Cliente> clientes, BD bd) {
+	public Main( BD bd) {
+		
 		super();
 		this.setBounds(800,400,600,800);
 		this.setLocationRelativeTo(null);
@@ -185,44 +186,27 @@ public class Main extends  JFrame {
 		pBotonesCentro.add(Box.createRigidArea(new Dimension(20, 0)));
 		pBotonesCentro.add(btnCarta_pedido);
 		pCentro.add(pBotonesCentro);
-		//pSur.add(jb);
 		pSur.add(hora);
 		
-		// Bases de Datos
-	
-		
-//		for(Cliente c : clientes) {
-//			bd.insertarCliente(c);
-//		}
-//		System.out.println("Insertando");
 		
 		// listeners
-		btnCC.addActionListener((e)->{
-			if(!cambio) {
-				cambio=true;
-				btnIS.setText("Cerrar Sesion");
-				btnCC.setEnabled(false);
-				btnCC.setForeground(Color.GRAY);
-				ventanaActual.setVisible(false);
-				new VentanaCC(ventanaActual,clientes,bd);
-			}
-			
+		btnCC.addActionListener((e) -> {
+		    if (!cambio) {  // solo si NO hay sesión iniciada
+		        ventanaActual.setVisible(false);
+		        new VentanaCC(ventanaActual, bd, this);  // 👈 le pasamos también el Main
+		    }
 		});
 		
 		btnIS.addActionListener((e)->{
-			if(!cambio) {
-				cambio=true;
-				btnIS.setText("Cerrar Sesion");
-				btnCC.setEnabled(false);
-				btnCC.setForeground(Color.GRAY);
-			    ventanaActual.setVisible(false);
-			    new VentanaIS(ventanaActual,clientes);
-			}else {
-				JOptionPane.showMessageDialog(null, "Cerrando Sesion...");
-				System.exit(0);
-			}
-				
+		    if(!cambio) { 
+		        ventanaActual.setVisible(false);
+		        new VentanaIS(ventanaActual, bd, this);  
+		    } else {
+		        JOptionPane.showMessageDialog(null, "Cerrando Sesion...");
+		        System.exit(0);
+		    }
 		});
+		
 		
 		btnReserva.addActionListener((e)->{
 			if(!pararImg) {
@@ -276,7 +260,7 @@ public class Main extends  JFrame {
 			if(!pararImg) {
 				
 				ventanaActual.setVisible(false);
-				new Carta_pedido(ventanaActual,clientes);
+				new Carta_pedido(ventanaActual);
 			}
 			
 		});
@@ -289,14 +273,10 @@ public class Main extends  JFrame {
 			@Override
 			public void run() {
 				while(true) {
-					// objeto que permite dar fomato a fecha y hora
-					SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss"); // cada letra implica el numero de digitos
-					// obtener fecha hora sistema
-					long sillis = System.currentTimeMillis(); // devuelve la fecha hora en milisegundos
-					Date fechaActual = new Date(sillis);     // coger el de java.util
-					//convertimos a string con formato fhecha hira segund
+					SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss"); 
+					long sillis = System.currentTimeMillis(); 
+					Date fechaActual = new Date(sillis);     
 			     	String s = sdf.format(fechaActual);
-			     	// si quisieramos poner titulo en cada cosa, habria q coger s y tratarlo como tostring y separando el sdf
 			     	hora.setText(s);
 				
 				}
@@ -326,9 +306,6 @@ public class Main extends  JFrame {
 					 l1.setIcon(new ImageIcon(img));
 					 l1.repaint(); 
 					 i=i+1;
-					 
-					
-				
 			}
 		 };
 		};	
@@ -337,7 +314,6 @@ public class Main extends  JFrame {
 		cambImg.start();
 		
 		 tpro = new Thread(()->{
-				
 			    for (int i = 0; i <= 100; i++) {
 			       jb.setValue(i);
 			        try { 
@@ -345,39 +321,47 @@ public class Main extends  JFrame {
 			        } catch (InterruptedException ex) {
 			        	}
 			        }
-			    jb.setVisible(false);
-			 
-			    
+			    jb.setVisible(false);   
 		 });
-		
 		this.setVisible(true);
       
 		
 		
 	}
 	public static void main(String[] args) {
-	List<Cliente>	lClientes = new ArrayList<Cliente>();
-		 Cliente c1 = new Cliente("juan@example.com", "1234juan",TipoPersona.ESTUDIANTE);
-	        Cliente c2 = new Cliente("maria@example.com", "mariaPass",TipoPersona.PROFESOR);
-	        Cliente c3 = new Cliente("pedro@example.com", "pedro_2025",TipoPersona.EXTERNO);
-	        Cliente c4 = new Cliente("laura@example.com", "lauraSegura",TipoPersona.PROFESOR);
-	        Cliente c5 = new Cliente("ana@example.com", "anaClave",TipoPersona.ESTUDIANTE);
-	        lClientes.add(c5);
-	        lClientes.add(c4);
-	        lClientes.add(c3);
-	        lClientes.add(c2);
-	        lClientes.add(c1);
+//	List<Cliente>	lClientes = new ArrayList<Cliente>();
+//		 Cliente c1 = new Cliente("juan@example.com", "1234juan",TipoPersona.ESTUDIANTE);
+//	        Cliente c2 = new Cliente("maria@example.com", "mariaPass",TipoPersona.PROFESOR);
+//	        Cliente c3 = new Cliente("pedro@example.com", "pedro_2025",TipoPersona.EXTERNO);
+//	        Cliente c4 = new Cliente("laura@example.com", "lauraSegura",TipoPersona.PROFESOR);
+//	        Cliente c5 = new Cliente("ana@example.com", "anaClave",TipoPersona.ESTUDIANTE);
+//	        lClientes.add(c5);
+//	        lClientes.add(c4);
+//	        lClientes.add(c3);
+//	        lClientes.add(c2);
+//	        lClientes.add(c1);
 		SwingUtilities.invokeLater(()->{
-		  BD	bd = new BD();
-			bd.initBD("Deustorante.db");
+		    BD bd = new BD();
+		    bd.initBD("Deustorante.db");
 			bd.crearTablas();
-			new Main((ArrayList<Cliente>) lClientes,bd);
+			new Main(bd);
+			// ya han sido insertados
+//		    bd.insertarCliente(c1);
+//		    bd.insertarCliente(c2);
+//		    bd.insertarCliente(c3);
+//		    bd.insertarCliente(c4);
+//		    bd.insertarCliente(c5);
+			
 		});
+	}
+	public  void loginCorrecto() {
+	    cambio = true;
+	    btnIS.setText("Cerrar Sesion");
+	    btnCC.setEnabled(false);
+	    btnCC.setForeground(Color.GRAY);
 	}
 	//DUDAS
 	
-	// COMO IMPLEMENTO METODOS CORRECTAMENTE FUERA DE AQUI
-	// PQ NO INSERTA CORRECTAMENTE LOS CLIENTES
 	// COMO HAGO LO DE LA LISTA( INCLUYO EN EL INSERT LA LISTA CON ADD
 	// LO MISMO CON RESERVA
 	

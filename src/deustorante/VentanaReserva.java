@@ -116,7 +116,6 @@ public class VentanaReserva extends JFrame{
 			JLabel l = new JLabel();
 			l.setOpaque(true);
 			if(row%4==0 && row!=12 ) {
-				//System.out.println(reposo[column]);
 				l.setText(reposo[column]);
 				l.setBackground(Color.GRAY);
 				l.setHorizontalAlignment(JLabel.CENTER);

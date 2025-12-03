@@ -29,8 +29,10 @@ public class VentanaIS extends JFrame{
 	private JButton btnVolver,btnAceptar;
 	private JProgressBar jb;
 	private Thread tpro;
+	private BD bd;
+	private Main main;
 	
-	public VentanaIS(JFrame va,List<Cliente> clientes) {
+	public VentanaIS(JFrame va,BD bd, Main main) {
 		ventanaAnterior=va;
 		ventanaActual = this;
 	
@@ -50,6 +52,9 @@ public class VentanaIS extends JFrame{
 		pSur.setOpaque(true);
 		pSur.setBackground(Color.WHITE);
 		
+		this.bd=bd;
+		
+		this.main=main;
 		espacio = new JLabel("        ");
 		
 	    email = new JLabel("Email");
@@ -121,22 +126,17 @@ public class VentanaIS extends JFrame{
 		btnAceptar.addActionListener((e)->{
 			String em = txtemail.getText();
 			String cont = txtcontr.getText();
-			boolean encontrado =false;
-			for(Cliente c : clientes) {
-				if(c.getEmail().equals(em) && c.getContrasenia().equals(cont)) {
-					encontrado=true;
-					jb.setVisible(true);
-					tpro.start();
-					break;
+			if(!bd.comprobarCliente(em,cont) || cont.equals("") || em.equals("")) {
+				JOptionPane.showMessageDialog(null, "Email o contraseña incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
+				txtemail.setText("");
+				txtcontr.setText("");
+			}
+			else {
+				 main.loginCorrecto();   
+				 jb.setVisible(true);
+			     tpro.start();
 				}
-			}
-			if(!encontrado) {
-			JOptionPane.showMessageDialog(null, "Email o contraseña incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
-			txtemail.setText("");
-			txtcontr.setText("");
-			}
-			
-		});
+			});
 		this.addWindowListener(new java.awt.event.WindowAdapter() {
 		    @Override
 		    public void windowClosing(java.awt.event.WindowEvent e) {
