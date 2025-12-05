@@ -15,8 +15,32 @@ public class Reserva  {
 	private static int cont;
 	private int numPersona, cod;
 	private Cliente clienteResponsable;
+	private int fila, columna;
 	
-	
+	/**
+	 * @return the fila
+	 */
+	public int getFila() {
+		return fila;
+	}
+	/**
+	 * @param fila the fila to set
+	 */
+	public void setFila(int fila) {
+		this.fila = fila;
+	}
+	/**
+	 * @return the columna
+	 */
+	public int getColumna() {
+		return columna;
+	}
+	/**
+	 * @param columna the columna to set
+	 */
+	public void setColumna(int columna) {
+		this.columna = columna;
+	}
 	/**
 	 * @return the cod
 	 */
@@ -45,6 +69,7 @@ public class Reserva  {
 		this.cod=cont;
 		this.numPersona = numPersona;
 		this.clienteResponsable = clienteResponsable;
+		
 	}
 	/**
 	 * @return the numPersona

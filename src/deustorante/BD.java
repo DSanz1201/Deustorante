@@ -7,6 +7,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BD {
 	
@@ -45,6 +47,8 @@ private Connection con; //Nos conectarmos a la base de datos
 		        + "COD_RESERVA INTEGER PRIMARY KEY AUTOINCREMENT, "
 		        + "NUM_PERSONA INTEGER, "
 		        + "EMAIL_CLIENTE TEXT, "
+		        + "FILA INTEGER, "
+		        + "COLUMNA INTEGER, "
 		        + "FOREIGN KEY (EMAIL_CLIENTE) REFERENCES CLIENTE(EMAIL)"
 		        + ")";
 		try {
@@ -101,14 +105,15 @@ private Connection con; //Nos conectarmos a la base de datos
 		}
 		
 	}
-	// metodo para insertat una reserva en la BD
+	// metodo para inserta una reserva en la BD
 	public void insertarReserva(Reserva r) {
-		String sql = "INSERT INTO RESERVA (NUM_PERSONA,EMAIL_CLIENTE) VALUES(?,?)";
-		
+		String sql = "INSERT INTO RESERVA (NUM_PERSONA,EMAIL_CLIENTE,FILA,COLUMNA) VALUES(?,?,?,?)";
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setInt(1, r.getNumPersona());
 			ps.setString(2, r.getClienteResponsable().getEmail());
+			ps.setInt(3, r.getFila());
+			ps.setInt(4, r.getColumna());
 			ps.executeUpdate();
 			ps.close();
 
@@ -116,5 +121,34 @@ private Connection con; //Nos conectarmos a la base de datos
 			e.printStackTrace();
 		}
 	}
-	
+	// metodo que devuelve todas las reservas de un lugar en concreto
+	public List<Reserva> recuperarReservas() {
+	    List<Reserva> lista = new ArrayList<>();
+
+	    String sql = "SELECT NUM_PERSONA, EMAIL_CLIENTE, FILA, COLUMNA FROM RESERVA"; // el * por alguna razon da problemas
+
+	    try (PreparedStatement ps = con.prepareStatement(sql);
+	         ResultSet rs = ps.executeQuery()) {
+	        while (rs.next()) {
+	            int num = rs.getInt("NUM_PERSONA");
+	            String email = rs.getString("EMAIL_CLIENTE");
+	            int fila = rs.getInt("FILA");
+	            int columna = rs.getInt("COLUMNA");
+	            Cliente c = new Cliente(email, "", TipoPersona.EXTERNO);
+
+	            Reserva r = new Reserva(num, c);
+	            r.setFila(fila);
+	            r.setColumna(columna);
+
+	            lista.add(r);
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return lista;
+	}
 }
+	
+

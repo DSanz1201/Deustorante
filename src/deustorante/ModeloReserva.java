@@ -11,6 +11,18 @@ public class ModeloReserva extends DefaultTableModel{
 		matriz = new Reserva[13][6];
 	}
 	
+	public ModeloReserva(List<Reserva> lista) {
+	    matriz = new Reserva[13][6]; 
+
+	    for (Reserva r : lista) {
+	        int f = r.getFila();
+	        int c = r.getColumna();
+	        
+	        if (f >= 0 && f < matriz.length && c >= 0 && c < matriz[0].length) {
+	        	matriz[f][c] = r;
+	        }
+	    }
+	}
 	@Override
 	public int getRowCount() {
 		if(matriz ==null) {

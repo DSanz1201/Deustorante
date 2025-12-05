@@ -9,6 +9,8 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -30,7 +32,6 @@ public class VentanaReserva extends JFrame{
 	public VentanaReserva(JFrame va,Reserva r, BD bd) {
 		super();
 		this.bd = bd;
-
 		this.ventanaActual = this;
 		this.ventanaAnterior = va;
 		this.setTitle("Reserva");
@@ -41,7 +42,11 @@ public class VentanaReserva extends JFrame{
 		// COMPONENTES
 	    fila=-1;
 		columna = -1;
-		modelo= new ModeloReserva();
+		List<Reserva> lista = bd.recuperarReservas();
+		//System.out.println("Reservas recuperadas: " + lista.size());
+		modelo= new ModeloReserva(lista);
+		
+		//modelo= new ModeloReserva();
 		tabla= new JTable(modelo);
 		tabla.setShowHorizontalLines(true);
 		
@@ -92,58 +97,81 @@ public class VentanaReserva extends JFrame{
 			
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
+				
 				
 			}
 			
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				Point p = e.getPoint();
-				fila = tabla.rowAtPoint(p);
-				columna = tabla.columnAtPoint(p);
-				modelo.actualizarModelo(fila, columna,r);
-				tabla.repaint();
-				bd.insertarReserva(r);
-				JOptionPane.showMessageDialog(null, "Has reservado");
-				ventanaActual.setVisible(false);
-				ventanaAnterior.setVisible(true);
-				
-			}
+			 @Override
+			    public void mouseClicked(MouseEvent e) {
+			        Point p = e.getPoint();
+			        fila = tabla.rowAtPoint(p);
+			        columna = tabla.columnAtPoint(p);
+
+			        if (fila < 0 || columna < 0) return;
+			        if (columna == 0) return;
+			        if (fila % 4 == 0 && fila != 12) return;
+			        Reserva rExistente = (Reserva) modelo.getValueAt(fila, columna);
+			        if (rExistente != null) {
+			            JOptionPane.showMessageDialog(null, "Este horario ya está reservado","Error",JOptionPane.ERROR_MESSAGE);
+			            return;
+			        }
+			        int colMatriz = columna - 1;
+			        r.setFila(fila);
+			        r.setColumna(colMatriz);
+			        modelo.actualizarModelo(fila, colMatriz, r);
+			        bd.insertarReserva(r);
+
+			        tabla.repaint();
+			        JOptionPane.showMessageDialog(null, "Has reservado");
+			        ventanaActual.setVisible(false);
+			        ventanaAnterior.setVisible(true);
+			    }
 		});
 		 
-		tabla.setDefaultRenderer(Object.class, (JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column)->{
-			String[] reposo = {"R","E","P","O","S","O"};
-			JLabel l = new JLabel();
-			l.setOpaque(true);
-			if(row%4==0 && row!=12 ) {
-				l.setText(reposo[column]);
-				l.setBackground(Color.GRAY);
-				l.setHorizontalAlignment(JLabel.CENTER);
-				return l;
-			}
-			if(column ==0) {
-				 l.setText(value != null ? value.toString() : "");
-			        l.setBackground(new Color(230, 230, 230)); // gris claro
-			        l.setFont(new Font("Arial", Font.BOLD, 14));
+		tabla.setDefaultRenderer(
+			    Object.class,
+			    (JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) -> {
+
+			        JLabel l = new JLabel();
+			        l.setOpaque(true);
+
+			  
+			        String[] reposo = {"R", "E", "P", "O", "S", "O"};
+			        if (row % 4 == 0 && row != 12) {
+			            l.setText(reposo[column]);
+			            l.setHorizontalAlignment(JLabel.CENTER);
+			            l.setBackground(Color.GRAY);
+			            return l;
+			        }
+
+			        
+			        if (column == 0) {
+			            l.setText(value != null ? value.toString() : "");
+			            l.setFont(new Font("Arial", Font.BOLD, 14));
+			            l.setBackground(new Color(230, 230, 230)); // gris claro
+			            return l;
+			        }
+
+			        
+			        Reserva rCelda = (Reserva) modelo.getValueAt(row, column);
+			        boolean reservado = (rCelda != null);
+
+			        if (reservado) {
+			            l.setBackground(new Color(144, 238, 144)); // verde claro
+			            l.setText("RESERVADO");
+			        } else {
+			            l.setBackground(Color.WHITE);
+			            l.setText("");
+			        }
+
+			    
+			        if (fila == row && columna == column && !reservado) {
+			            l.setBackground(Color.BLUE);
+			        }
+
 			        return l;
-			}
-			if(fila== row && column == columna && column!=0) {
-				l.setBackground(Color.BLUE);
-			}
-
-			else {
-			Reserva rCelda = (Reserva) modelo.getValueAt(row, column+1);
-		    if (rCelda != null && column!=0) {
-		        l.setBackground(new Color(144, 238, 144)); // verde claro
-		        l.setText("RESERVADO"); 
-		    } else {
-		        l.setBackground(Color.WHITE);
-		        l.setText("");
-		     }
-			}
-
-			return l;
-		});
+			    }
+			);
 		tabla.setOpaque(true);
 		tabla.setBackground(Color.WHITE);
 		tabla.getTableHeader().setFont(new Font(Font.DIALOG, Font.BOLD, 15));
@@ -189,5 +217,6 @@ public class VentanaReserva extends JFrame{
 		
 		
 		this.setVisible(true);
+		
 	}
 }

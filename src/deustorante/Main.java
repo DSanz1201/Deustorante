@@ -12,6 +12,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.HeadlessException;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -39,10 +40,10 @@ public class Main extends  JFrame {
 	private JFrame ventanaActual;
 	private JProgressBar jb;
 	private Thread tpro,thora;
+	private int fila,col;
 	
 	
 	public Main( BD bd) {
-		
 		super();
 		this.setBounds(800,400,600,800);
 		this.setLocationRelativeTo(null);
@@ -98,6 +99,9 @@ public class Main extends  JFrame {
 		jb.setBackground(Color.WHITE);
 		jb.setForeground(Color.BLUE);
 		jb.setStringPainted(true);
+		
+		this.fila=-1;
+		this.col=-1;
 		
 		cambio = false;
 		
@@ -231,11 +235,12 @@ public class Main extends  JFrame {
 					    opciones,
 					    opciones[0]
 					);
+				
 					TipoPersona p = TipoPersona.valueOf(per.toUpperCase());
 					Cliente c = new Cliente(em, "", p);
 					Reserva r = new Reserva(num, c);
 					jb.setVisible(true);
-					tpro.start();
+					//tpro.start();
 					new VentanaReserva(ventanaActual,r, bd);
 					
 					
@@ -283,7 +288,7 @@ public class Main extends  JFrame {
 				
 			}
 		};
-		Thread thora = new Thread(rhora);
+		 thora = new Thread(rhora);
 		thora.start();
 		
 		Runnable rImg = new Runnable() { 
@@ -360,11 +365,6 @@ public class Main extends  JFrame {
 	    btnCC.setEnabled(false);
 	    btnCC.setForeground(Color.GRAY);
 	}
-	//DUDAS
 	
-	// COMO HAGO LO DE LA LISTA( INCLUYO EN EL INSERT LA LISTA CON ADD
-	// LO MISMO CON RESERVA
-	
-	// SE MANTENDRA LO PUESTO EN RESERVA CON EL COLOR DE FONDO VERDE Y ASI
 
 }
