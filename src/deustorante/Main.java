@@ -49,7 +49,6 @@ public class Main extends  JFrame {
 		this.setLocationRelativeTo(null);
 		this.setTitle("Deustorante");
 		// creacion de paneles
-
 		
 		pCentro = new  JPanel();
 		pCentro.setLayout(new BoxLayout(pCentro, BoxLayout.Y_AXIS));
