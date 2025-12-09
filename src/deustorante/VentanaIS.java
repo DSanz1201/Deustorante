@@ -130,11 +130,13 @@ public class VentanaIS extends JFrame{
 				JOptionPane.showMessageDialog(null, "Email o contraseña incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
 				txtemail.setText("");
 				txtcontr.setText("");
-			}
-			else {
-				 main.loginCorrecto();   
-				 jb.setVisible(true);
-			     tpro.start();
+			} else {
+				Cliente c = bd.obtenerCliente(em);
+				if (c != null) {
+		            main.loginCorrecto(c);
+		            jb.setVisible(true);
+		            tpro.start();
+		        }
 				}
 			});
 		this.addWindowListener(new java.awt.event.WindowAdapter() {

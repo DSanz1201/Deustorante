@@ -29,23 +29,29 @@ import javax.swing.table.TableColumn;
 
 public class Carta extends JFrame {
     private JFrame ventanaAnterior;
+    private JFrame ventanaActual;
     private JTable tablaPedidos;
     private DefaultTableModel modeloTabla;
     private JTextArea areaCesta;
     private JLabel ltotal;
     private List<Plato> listaPlatos;
     private double totalActual = 0.0;
+    private BD bd;
+    private Cliente cliente;
 
-    public Carta(JFrame va) {
+    public Carta(JFrame va, BD bd, Cliente cliente) {
         this.ventanaAnterior = va;
+        this.ventanaActual = this;
+        this.bd = bd;
+        this.cliente = cliente;
         this.setTitle("Realizar Pedido");
         this.setBounds(800, 400, 900, 700);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout());
 
-        //Temporal
-        cargarDatosFalsos(); 
+        //cargo BD
+        listaPlatos = bd.recuperarPlatos();
 
         String[] columnas = {"Categoría", "Plato", "Precio", "Cantidad"};
         
@@ -76,6 +82,7 @@ public class Carta extends JFrame {
         	comboBoxCantidad.addItem(i);
     	}
         columnaCantidad.setCellEditor(new DefaultCellEditor(comboBoxCantidad));
+        tablaPedidos.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
         
         DefaultTableCellRenderer centrar = new DefaultTableCellRenderer();
         centrar.setHorizontalAlignment(SwingConstants.CENTER);
@@ -100,7 +107,7 @@ public class Carta extends JFrame {
         ltotal.setBackground(Color.GRAY);
 
         JButton btnFinalizar = new JButton("Confirmar Pedido");
-        btnFinalizar.setFont(new Font("Arial", Font.BOLD, 14));
+        btnFinalizar.setFont(new Font("Arial", Font.BOLD, 16));
         btnFinalizar.setBackground(Color.CYAN);
         
         JPanel panelFinalizar = new JPanel(new BorderLayout());
@@ -123,8 +130,12 @@ public class Carta extends JFrame {
         //Ventana principal
         this.add(new JScrollPane(tablaPedidos), BorderLayout.CENTER);
         this.add(panelCesta, BorderLayout.EAST);
-        
-        JLabel titulo = new JLabel("REALIZAR PEDIDO", SwingConstants.CENTER);
+        JLabel titulo = new JLabel("", SwingConstants.CENTER);
+        try {
+        	titulo.setText("REALIZAR PEDIDO (" + cliente.getEmail() + ")");
+        } catch (NullPointerException e) {
+        	titulo.setText("REALIZAR PEDIDO (GUEST)");
+        }
         titulo.setFont(new Font("Arial", Font.BOLD, 20));
         titulo.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         this.add(titulo, BorderLayout.NORTH);
@@ -132,12 +143,34 @@ public class Carta extends JFrame {
         btnFinalizar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+            	if (tablaPedidos.isEditing()) {
+                    tablaPedidos.getCellEditor().stopCellEditing();
+                }
+            	if(cliente == null) {
+            		JOptionPane.showMessageDialog(null, "Para finalizar el pedido debes iniciar sesión primero.");
+            		ventanaActual.setVisible(false);
+                    va.setVisible(true);
+                    return;
+            	}
                 if (totalActual == 0) {
                     JOptionPane.showMessageDialog(null, "La cesta está vacía.");
                 } else {
-                    JOptionPane.showMessageDialog(null, "Pedido realizado correctamente.\nTotal: " + String.format("%.2f €", totalActual));
-                    ventanaAnterior.setVisible(true);
-                    dispose();
+                	//cantidades
+                    List<Integer> cantidades = new ArrayList<>();
+                    for (int i = 0; i < modeloTabla.getRowCount(); i++) {
+                        cantidades.add((Integer) modeloTabla.getValueAt(i, 3));
+                    }
+
+                    //guarda en BD
+                    int idPedido = bd.insertarPedido(cliente.getEmail(), totalActual, listaPlatos, cantidades);
+                    
+                    if (idPedido != -1) {
+                        JOptionPane.showMessageDialog(null, "Pedido realizado correctamente.\nTotal: " + String.format("%.2f €", totalActual));
+                        ventanaAnterior.setVisible(true);
+                        dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Error al guardar en la base de datos.");
+                    }
                 }
             }
         });
@@ -182,26 +215,5 @@ public class Carta extends JFrame {
         }
         
         return totalActual;
-    }
-
-    //Temporal
-    private void cargarDatosFalsos() {
-        listaPlatos = new ArrayList<>();
-
-        listaPlatos.add(new Plato("Ensalada mixta", 6.50, "Entrante"));
-        listaPlatos.add(new Plato("Croquetas (6u)", 7.00, "Entrante"));
-        listaPlatos.add(new Plato("Sopa de cocido", 5.00, "Entrante"));
-        listaPlatos.add(new Plato("Txistorra sidra", 6.80, "Entrante"));
-
-        listaPlatos.add(new Plato("Bacalao pil-pil", 14.50, "Principal"));
-        listaPlatos.add(new Plato("Entrecot (300g)", 15.00, "Principal"));
-        listaPlatos.add(new Plato("Hamburguesa", 10.00, "Principal"));
-
-        listaPlatos.add(new Plato("Tarta de queso", 5.00, "Postre"));
-        listaPlatos.add(new Plato("Coulant Choco", 3.50, "Postre"));
-
-        listaPlatos.add(new Plato("Agua", 1.80, "Bebida"));
-        listaPlatos.add(new Plato("Refresco", 2.20, "Bebida"));
-        listaPlatos.add(new Plato("Cerveza", 2.50, "Bebida"));
     }
 }

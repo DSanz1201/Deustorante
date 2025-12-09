@@ -41,6 +41,7 @@ public class Main extends  JFrame {
 	private JProgressBar jb;
 	private Thread tpro,thora;
 	private int fila,col;
+	private Cliente usuarioLogueado = null;
 	
 	
 	public Main( BD bd) {
@@ -187,9 +188,9 @@ public class Main extends  JFrame {
 		
 		// listeners
 		btnCC.addActionListener((e) -> {
-		    if (!cambio) {  // solo si NO hay sesión iniciada
+		    if (!cambio) {
 		        ventanaActual.setVisible(false);
-		        new VentanaCC(ventanaActual, bd, this);  // 👈 le pasamos también el Main
+		        new VentanaCC(ventanaActual, bd, this);
 		    }
 		});
 		
@@ -245,14 +246,11 @@ public class Main extends  JFrame {
 		});
 		
 		btnCarta.addActionListener((e)->{
-			if(!pararImg) {
-				
-				ventanaActual.setVisible(false);
-				new Carta(ventanaActual);
-			}
-			
+		    if(!pararImg) {
+		    	ventanaActual.setVisible(false);
+		        new Carta(ventanaActual, bd, usuarioLogueado);
+		    }
 		});
-		
 		// hilos
 		
 	   Runnable rhora = new Runnable() {
@@ -317,7 +315,7 @@ public class Main extends  JFrame {
 	}
 	public static void main(String[] args) {
 //	List<Cliente>	lClientes = new ArrayList<Cliente>();
-//		 Cliente c1 = new Cliente("juan@example.com", "1234juan",TipoPersona.ESTUDIANTE);
+//		 	Cliente c1 = new Cliente("juan@example.com", "1234juan",TipoPersona.ESTUDIANTE);
 //	        Cliente c2 = new Cliente("maria@example.com", "mariaPass",TipoPersona.PROFESOR);
 //	        Cliente c3 = new Cliente("pedro@example.com", "pedro_2025",TipoPersona.EXTERNO);
 //	        Cliente c4 = new Cliente("laura@example.com", "lauraSegura",TipoPersona.PROFESOR);
@@ -338,10 +336,34 @@ public class Main extends  JFrame {
 //		    bd.insertarCliente(c3);
 //		    bd.insertarCliente(c4);
 //		    bd.insertarCliente(c5);
+			//entrantes
+			bd.insertarPlato(new Plato("Ensalada mixta", 6.50, "Entrante"));
+			bd.insertarPlato(new Plato("Croquetas caseras (6u)", 7.00, "Entrante"));
+			bd.insertarPlato(new Plato("Sopa de cocido", 5.00, "Entrante"));
+			bd.insertarPlato(new Plato("Txistorra a la sidra", 6.80, "Entrante"));
+
+			//principales
+			bd.insertarPlato(new Plato("Bacalao al pil-pil", 14.50, "Principal"));
+			bd.insertarPlato(new Plato("Entrecot a la brasa (300g)", 15.00, "Principal"));
+			bd.insertarPlato(new Plato("Hamburguesa de pollo (150g)", 10.00, "Principal"));
+			bd.insertarPlato(new Plato("Risotto de hongos", 12.90, "Principal"));
+
+			//postres
+			bd.insertarPlato(new Plato("Tarta de queso", 5.00, "Postre"));
+			bd.insertarPlato(new Plato("Flan casero", 4.50, "Postre"));
+			bd.insertarPlato(new Plato("Coulant de chocolate", 3.50, "Postre"));
+			bd.insertarPlato(new Plato("Helado artesano (2 bolas)", 3.80, "Postre"));
+
+			//bebidas
+			bd.insertarPlato(new Plato("Agua", 1.80, "Bebida"));
+			bd.insertarPlato(new Plato("Refresco", 2.20, "Bebida"));
+			bd.insertarPlato(new Plato("Cerveza", 2.50, "Bebida"));
+			bd.insertarPlato(new Plato("Café", 1.50, "Bebida"));
 			
 		});
 	}
-	public  void loginCorrecto() {
+	public  void loginCorrecto(Cliente c) {
+		this.usuarioLogueado = c;
 	    cambio = true;
 	    btnIS.setText("Cerrar Sesion");
 	    btnCC.setEnabled(false);

@@ -172,7 +172,7 @@ public class VentanaCC extends JFrame {
 			        ventanaAnterior.setVisible(true); 
 				} else {
 					 bd.insertarCliente(c);
-					 main.loginCorrecto();
+					 main.loginCorrecto(c);
 					 jb.setVisible(true);
 					 tpro.start();
 				}

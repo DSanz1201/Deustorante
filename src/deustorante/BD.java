@@ -51,6 +51,27 @@ private Connection con; //Nos conectarmos a la base de datos
 		        + "COLUMNA INTEGER, "
 		        + "FOREIGN KEY (EMAIL_CLIENTE) REFERENCES CLIENTE(EMAIL)"
 		        + ")";
+		String sqlPlato = "CREATE TABLE IF NOT EXISTS PLATO("
+		        + "NOMBRE TEXT PRIMARY KEY, "
+		        + "PRECIO REAL, "
+		        + "CATEGORIA TEXT)";
+		String sqlPedido = "CREATE TABLE IF NOT EXISTS PEDIDO("
+		        + "COD_PEDIDO INTEGER PRIMARY KEY AUTOINCREMENT, "
+		        + "EMAIL_CLIENTE TEXT, "
+		        + "FECHA_HORA TEXT, "
+		        + "TOTAL REAL, "
+		        + "FOREIGN KEY (EMAIL_CLIENTE) REFERENCES CLIENTE(EMAIL)"
+		        + ")";
+		String sqlLineaPedido = "CREATE TABLE IF NOT EXISTS LINEA_PEDIDO("
+		        + "COD_PEDIDO INTEGER, "
+		        + "NOMBRE_PLATO TEXT, "
+		        + "CANTIDAD INTEGER, "
+		        + "PRECIO_UNITARIO REAL, "
+		        + "PRIMARY KEY (COD_PEDIDO, NOMBRE_PLATO), "
+		        + "FOREIGN KEY (COD_PEDIDO) REFERENCES PEDIDO(COD_PEDIDO), "
+		        + "FOREIGN KEY (NOMBRE_PLATO) REFERENCES PLATO(NOMBRE)"
+		        + ")";
+
 		try {
 			PreparedStatement ps = con.prepareStatement(sqlCliente);
 			ps.executeUpdate();
@@ -58,7 +79,15 @@ private Connection con; //Nos conectarmos a la base de datos
 			
 			ps =  con.prepareStatement(sqlReserva);
 			ps.executeUpdate();
-
+			
+			ps =  con.prepareStatement(sqlPlato);
+			ps.executeUpdate();
+			
+			ps =  con.prepareStatement(sqlPedido);
+			ps.executeUpdate();
+			
+			ps =  con.prepareStatement(sqlLineaPedido);
+			ps.executeUpdate();
 			
 			ps.close();
 			
@@ -87,6 +116,7 @@ private Connection con; //Nos conectarmos a la base de datos
 		return enc;
 		
 	}
+	
 	// metodo que inserta un cliente en la BD
 	public void insertarCliente(Cliente c) {
 		String sql = "INSERT INTO CLIENTE (EMAIL,CONTRASENIA,TIPO_PERSONA) VALUES(?,?,?)";
@@ -121,6 +151,62 @@ private Connection con; //Nos conectarmos a la base de datos
 			e.printStackTrace();
 		}
 	}
+	// metodo para insertar un plato en la BD
+	public void insertarPlato(Plato p) {
+	    String sql = "INSERT OR IGNORE INTO PLATO (NOMBRE, PRECIO, CATEGORIA) VALUES(?,?,?)";
+	    try {
+	    	PreparedStatement ps = con.prepareStatement(sql);
+	        ps.setString(1, p.getNombre());
+	        ps.setDouble(2, p.getPrecio());
+	        ps.setString(3, p.getCategoria());
+	        ps.executeUpdate();
+	    } catch (SQLException e) {
+	    	e.printStackTrace();
+	    }
+	}
+	// metodo para insertar pedido en la BD
+	public int insertarPedido(String emailCliente, double total, List<Plato> platos, List<Integer> cantidades) {
+	    int codPedido = -1;
+	    String sqlCabecera = "INSERT INTO PEDIDO (EMAIL_CLIENTE, FECHA_HORA, TOTAL) VALUES(?, datetime('now'), ?)";
+	    String sqlLinea = "INSERT INTO LINEA_PEDIDO (COD_PEDIDO, NOMBRE_PLATO, CANTIDAD, PRECIO_UNITARIO) VALUES(?,?,?,?)";
+	    
+	    try {
+	    	//Cabecera
+	        PreparedStatement ps = con.prepareStatement(sqlCabecera, java.sql.Statement.RETURN_GENERATED_KEYS);
+	        ps.setString(1, emailCliente);
+	        ps.setDouble(2, total);
+	        ps.executeUpdate();
+	        
+	        //Platos
+	        if (codPedido != -1) {
+	            PreparedStatement psLinea = con.prepareStatement(sqlLinea);
+	            
+	            for (int i = 0; i < platos.size(); i++) {
+	                if (cantidades.get(i) > 0) {
+	                    psLinea.setInt(1, codPedido);
+	                    psLinea.setString(2, platos.get(i).getNombre());
+	                    psLinea.setInt(3, cantidades.get(i));
+	                    psLinea.setDouble(4, platos.get(i).getPrecio());
+	                    psLinea.executeUpdate();
+	                }
+	            }
+	            psLinea.close();
+	        }
+	        
+	      //ID
+	        ResultSet rs = ps.getGeneratedKeys();
+	        if (rs.next()) {
+	            codPedido = rs.getInt(1);
+	        }
+	        ps.close();
+	        
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return -1;
+	    }
+	    return codPedido;
+	}
+	
 	// metodo que devuelve todas las reservas de un lugar en concreto
 	public List<Reserva> recuperarReservas() {
 	    List<Reserva> lista = new ArrayList<>();
@@ -149,6 +235,50 @@ private Connection con; //Nos conectarmos a la base de datos
 
 	    return lista;
 	}
+	
+	//metodo que devuelve todos los platos
+	public List<Plato> recuperarPlatos() {
+	    List<Plato> lista = new ArrayList<>();
+	    String sql = "SELECT * FROM PLATO ORDER BY CATEGORIA DESC, NOMBRE";
+	    try (PreparedStatement ps = con.prepareStatement(sql);
+	         ResultSet rs = ps.executeQuery()) {
+	        while (rs.next()) {
+	            lista.add(new Plato(
+	                rs.getString("NOMBRE"),
+	                rs.getDouble("PRECIO"),
+	                rs.getString("CATEGORIA")
+	            ));
+	        }
+	    } catch (SQLException e) { e.printStackTrace(); }
+	    return lista;
+	}
+	
+	// Método para recuperar los datos completos de un cliente
+		public Cliente obtenerCliente(String email) {
+			String sql = "SELECT * FROM CLIENTE WHERE EMAIL=?";
+			Cliente c = null;
+			
+			try {
+				PreparedStatement ps = con.prepareStatement(sql);
+				ps.setString(1, email);
+				ResultSet rs = ps.executeQuery();
+				
+				if (rs.next()) {
+					String pass = rs.getString("CONTRASENIA");
+					String tipoString = rs.getString("TIPO_PERSONA");
+					
+					TipoPersona tipo = TipoPersona.valueOf(tipoString);
+					
+					c = new Cliente(email, pass, tipo);
+				}
+				rs.close();
+				ps.close();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return c;
+		}
 }
 	
 
