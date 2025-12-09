@@ -177,6 +177,13 @@ private Connection con; //Nos conectarmos a la base de datos
 	        ps.setDouble(2, total);
 	        ps.executeUpdate();
 	        
+	      //ID
+	        ResultSet rs = ps.getGeneratedKeys();
+	        if (rs.next()) {
+	            codPedido = rs.getInt(1);
+	        }
+	        ps.close();
+	        
 	        //Platos
 	        if (codPedido != -1) {
 	            PreparedStatement psLinea = con.prepareStatement(sqlLinea);
@@ -192,13 +199,6 @@ private Connection con; //Nos conectarmos a la base de datos
 	            }
 	            psLinea.close();
 	        }
-	        
-	      //ID
-	        ResultSet rs = ps.getGeneratedKeys();
-	        if (rs.next()) {
-	            codPedido = rs.getInt(1);
-	        }
-	        ps.close();
 	        
 	    } catch (SQLException e) {
 	        e.printStackTrace();
