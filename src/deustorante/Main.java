@@ -34,7 +34,7 @@ import javax.swing.border.LineBorder;
 
 public class Main extends  JFrame {
 	private JPanel pCentro, pBotonesCentro, pNorte, pSur, pEste, pOeste;
-	protected JButton btnIS,btnCC, btnReserva, btnCarta_pedido, btnCarta_normal;
+	protected JButton btnIS,btnCC, btnReserva, btnCarta_normal;
 	protected JLabel titulo, log, l1, texto_principal, espacio1, espacio2,hora;
 	private boolean pararImg,cambio,cambio2;
 	private JFrame ventanaActual;
@@ -49,6 +49,7 @@ public class Main extends  JFrame {
 		this.setLocationRelativeTo(null);
 		this.setTitle("Deustorante");
 		// creacion de paneles
+
 		
 		pCentro = new  JPanel();
 		pCentro.setLayout(new BoxLayout(pCentro, BoxLayout.Y_AXIS));
@@ -58,6 +59,7 @@ public class Main extends  JFrame {
 		pBotonesCentro = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 30));
 		pBotonesCentro.setBackground(Color.WHITE);
 		pBotonesCentro.setOpaque(true);
+		pBotonesCentro.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		
 		pEste = new JPanel();
@@ -137,13 +139,6 @@ public class Main extends  JFrame {
 		btnCarta_normal.setBorder(new LineBorder(Color.WHITE));
 		btnCarta_normal.setForeground(Color.BLUE);
 		
-		btnCarta_pedido = new JButton("Pedido");
-		btnCarta_pedido.setOpaque(true);
-		btnCarta_pedido.setBackground(Color.WHITE);
-		btnCarta_pedido.setFont(new Font(Font.DIALOG, Font.BOLD, 15));
-		btnCarta_pedido.setBorder(new LineBorder(Color.WHITE));
-		btnCarta_pedido.setForeground(Color.BLUE);
-		
 		pararImg= false;
 		
 		l1 = new JLabel();
@@ -186,8 +181,6 @@ public class Main extends  JFrame {
 		pBotonesCentro.add(btnReserva);
 		pBotonesCentro.add(Box.createRigidArea(new Dimension(20, 0)));
 		pBotonesCentro.add(btnCarta_normal);
-		pBotonesCentro.add(Box.createRigidArea(new Dimension(20, 0)));
-		pBotonesCentro.add(btnCarta_pedido);
 		pCentro.add(pBotonesCentro);
 		pSur.add(hora);
 		
@@ -259,16 +252,6 @@ public class Main extends  JFrame {
 			}
 			
 		});
-		
-		btnCarta_pedido.addActionListener((e)->{
-			if(!pararImg) {
-				
-				ventanaActual.setVisible(false);
-				new Carta_pedido(ventanaActual);
-			}
-			
-		});
-		
 		
 		// hilos
 		
