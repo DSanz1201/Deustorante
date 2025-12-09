@@ -97,12 +97,4 @@ public class Reserva  {
 	public String toString() {
 		return "Reserva [numPersona=" + numPersona + ", clienteResponsable=" + clienteResponsable + "]";
 	}
-	
-	
-	
-
-	
-	
-	
-	
 }

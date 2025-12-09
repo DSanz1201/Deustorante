@@ -34,7 +34,7 @@ import javax.swing.border.LineBorder;
 
 public class Main extends  JFrame {
 	private JPanel pCentro, pBotonesCentro, pNorte, pSur, pEste, pOeste;
-	protected JButton btnIS,btnCC, btnReserva, btnCarta_normal;
+	protected JButton btnIS,btnCC, btnReserva, btnCarta;
 	protected JLabel titulo, log, l1, texto_principal, espacio1, espacio2,hora;
 	private boolean pararImg,cambio,cambio2;
 	private JFrame ventanaActual;
@@ -132,12 +132,12 @@ public class Main extends  JFrame {
 		btnReserva.setBorder(new LineBorder(Color.WHITE));
 		btnReserva.setForeground(Color.BLUE);
 		
-		btnCarta_normal = new JButton("Carta");
-		btnCarta_normal.setOpaque(true);
-		btnCarta_normal.setBackground(Color.WHITE);
-		btnCarta_normal.setFont(new Font(Font.DIALOG, Font.BOLD, 15));
-		btnCarta_normal.setBorder(new LineBorder(Color.WHITE));
-		btnCarta_normal.setForeground(Color.BLUE);
+		btnCarta = new JButton("Carta");
+		btnCarta.setOpaque(true);
+		btnCarta.setBackground(Color.WHITE);
+		btnCarta.setFont(new Font(Font.DIALOG, Font.BOLD, 15));
+		btnCarta.setBorder(new LineBorder(Color.WHITE));
+		btnCarta.setForeground(Color.BLUE);
 		
 		pararImg= false;
 		
@@ -180,7 +180,7 @@ public class Main extends  JFrame {
 		pCentro.add(texto_principal);
 		pBotonesCentro.add(btnReserva);
 		pBotonesCentro.add(Box.createRigidArea(new Dimension(20, 0)));
-		pBotonesCentro.add(btnCarta_normal);
+		pBotonesCentro.add(btnCarta);
 		pCentro.add(pBotonesCentro);
 		pSur.add(hora);
 		
@@ -244,11 +244,11 @@ public class Main extends  JFrame {
 			
 		});
 		
-		btnCarta_normal.addActionListener((e)->{
+		btnCarta.addActionListener((e)->{
 			if(!pararImg) {
 				
 				ventanaActual.setVisible(false);
-				new Carta_normal(ventanaActual);
+				new Carta(ventanaActual);
 			}
 			
 		});
