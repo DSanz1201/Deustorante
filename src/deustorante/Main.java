@@ -315,7 +315,6 @@ public class Main extends  JFrame {
 	}
 	public static void main(String[] args) {
 //	List<Cliente>	lClientes = new ArrayList<Cliente>();
-		
 //		 	Cliente c1 = new Cliente("juan@example.com", "1234juan",TipoPersona.ESTUDIANTE);
 //	        Cliente c2 = new Cliente("maria@example.com", "mariaPass",TipoPersona.PROFESOR);
 //	        Cliente c3 = new Cliente("pedro@example.com", "pedro_2025",TipoPersona.EXTERNO);
