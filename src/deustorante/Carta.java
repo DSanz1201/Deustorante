@@ -70,7 +70,6 @@ public class Carta extends JFrame {
         tablaPedidos.setShowGrid(false);
         tablaPedidos.setShowHorizontalLines(true);
         
-        // --- AQUI ESTA LA MAGIA DEL MENU DESPLEGABLE ---
         TableColumn columnaCantidad = tablaPedidos.getColumnModel().getColumn(3);
         JComboBox<Integer> comboBoxCantidad = new JComboBox<>();
         for(int i=0; i<=10; i++) {
@@ -116,7 +115,7 @@ public class Carta extends JFrame {
             @Override
             public void tableChanged(TableModelEvent e) {
                 if (e.getType() == TableModelEvent.UPDATE) {
-                    actualizarCesta();
+                   totalActual = actualizarCesta();
                 }
             }
         });
@@ -153,7 +152,7 @@ public class Carta extends JFrame {
         this.setVisible(true);
     }
 
-    private void actualizarCesta() {
+    private double actualizarCesta() {
         String texto = "";
         double totalActual = 0.0;
         boolean hayItems = false;
@@ -181,6 +180,8 @@ public class Carta extends JFrame {
             areaCesta.setText(texto);
             ltotal.setText(String.format("Total: %.2f €", totalActual));
         }
+        
+        return totalActual;
     }
 
     //Temporal
