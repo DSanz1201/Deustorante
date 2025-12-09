@@ -11,6 +11,8 @@ public class ModeloReserva extends DefaultTableModel{
 		matriz = new Reserva[13][6];
 	}
 	
+	
+	
 	public ModeloReserva(List<Reserva> lista) {
 	    matriz = new Reserva[13][6]; 
 
@@ -22,6 +24,30 @@ public class ModeloReserva extends DefaultTableModel{
 	        	matriz[f][c] = r;
 	        }
 	    }
+	}
+	
+	public int[] buscarPrimeraLibre(int fila, int columna) {
+
+	    if (fila >= matriz.length)
+	        return null;
+
+	   
+	    if (fila % 4 == 0 && fila != 12)
+	        return buscarPrimeraLibre(fila + 1, 1);
+
+	  
+	    if (columna == 0)
+	        return buscarPrimeraLibre(fila, 1);
+
+	
+	    if (matriz[fila][columna] == null)
+	        return new int[]{fila, columna};
+
+
+	    if (columna < matriz[0].length - 1)
+	        return buscarPrimeraLibre(fila, columna + 1);
+
+	    return buscarPrimeraLibre(fila + 1, 1);
 	}
 	@Override
 	public int getRowCount() {

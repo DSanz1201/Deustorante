@@ -12,6 +12,7 @@ import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -51,7 +52,11 @@ public class VentanaReserva extends JFrame{
 		tabla.setShowHorizontalLines(true);
 		
 		
-		
+	    JButton btnAuto = new JButton("Auto-asignar primera hora libre");
+	    btnAuto.setOpaque(true);
+	    btnAuto.setForeground(Color.WHITE);
+	    btnAuto.setBackground(Color.BLUE);
+	    this.getContentPane().add(btnAuto, BorderLayout.SOUTH);
 		
 		tabla.setRowHeight(50);
 		this.getContentPane().add(tabla.getTableHeader(),BorderLayout.NORTH);
@@ -213,7 +218,29 @@ public class VentanaReserva extends JFrame{
 		    }
 		});
 		
-		
+		 btnAuto.addActionListener(e -> {
+	            int[] pos = modelo.buscarPrimeraLibre(0, 1);
+
+	            if (pos == null) {
+	                JOptionPane.showMessageDialog(null, "No queda ningún hueco libre");
+	                return;
+	            }
+
+	            int filaLibre = pos[0];
+	            int colLibre = pos[1];
+
+	            r.setFila(filaLibre);
+	            r.setColumna(colLibre);
+
+	            modelo.actualizarModelo(filaLibre, colLibre, r);
+	            bd.insertarReserva(r);
+
+	            tabla.repaint();
+	            JOptionPane.showMessageDialog(null, "Reserva auto-asignada en fila " + filaLibre + ", columna " + colLibre);
+
+	            ventanaActual.setVisible(false);
+	            ventanaAnterior.setVisible(true);
+	        });
 		
 		
 		this.setVisible(true);

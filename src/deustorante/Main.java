@@ -46,7 +46,7 @@ public class Main extends  JFrame {
 	
 	public Main( BD bd) {
 		super();
-		this.setBounds(800,400,600,800);
+		this.setBounds(800,400,600,700);
 		this.setLocationRelativeTo(null);
 		this.setTitle("Deustorante");
 		// creacion de paneles
@@ -150,17 +150,39 @@ public class Main extends  JFrame {
 		Image img =  iconoprimero.getImage().getScaledInstance(450,200, Image.SCALE_SMOOTH);
 		l1.setIcon(new ImageIcon(img));
 		
-		texto_principal = new JLabel("<html><div style='text-align: center;'>"
-		        + "<br>En Deustorante, fusionamos tradición e innovación para ofrecerte<br>"
-		        + "platos llenos de sabor con ingredientes frescos y de calidad.<br>"
-		        + "Disfruta de una experiencia gastronómica única en un ambiente acogedor,<br>"
-		        + "ideal para cualquier ocasión.</div></html>");
+		// Uso de IA para generar el texto de forma correcta( texto_principal)
+		JLabel texto_principal = new JLabel(
+			    "<html>"
+			  + "<div style='width:420px; margin:8px auto; padding:10px;"
+			  + "font-family: Arial; font-size:11px; line-height:1.35;'>"
+
+			  + "<p style='text-align: justify; margin-bottom:10px;'>"
+			  + "Come en Deustorante: platos ricos, precios amables y porciones que entienden "
+			  + "lo duro que puede ser un día universitario. También ofrecemos comida para llevar "
+			  + "cuando no tienes ni un minuto libre."
+			  + "</p>"
+
+			  + "<p style='text-align: justify; margin-bottom:12px;'>"
+			  + "En nuestro Deustorante, la comida está tan optimizada que ni el profesor más "
+			  + "estricto podría hacerle un benchmark negativo. Zero bugs, high performance "
+			  + "y un menú con +10 de energía garantizada."
+			  + "</p>"
+
+			  + "<p style='text-align:center; font-weight:bold; font-size:12px; color:#CC0000;'>"
+			  + "DESCUENTOS ESPECIALES PARA LOS ALUMNOS<br>"
+			  + "DE LA UNIVERSIDAD DE DEUSTO,<br>"
+			  + "Y TAMBIÉN PARA LOS DE LA OTRA."
+			  + "</p>"
+
+			  + "</div></html>"
+			);
 		texto_principal.setOpaque(true);
 		texto_principal.setBackground(Color.WHITE);
 		texto_principal.setBorder(new LineBorder(Color.white));
 		texto_principal.setVerticalAlignment(JLabel.CENTER);
 		texto_principal.setHorizontalAlignment(JLabel.CENTER);
 		texto_principal.setAlignmentX(CENTER_ALIGNMENT);
+		texto_principal.setFont(new Font("Arial",Font.ITALIC,10));
 		
 		// añadir paneles
 		
