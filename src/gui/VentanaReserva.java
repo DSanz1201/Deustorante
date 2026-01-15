@@ -129,6 +129,15 @@ public class VentanaReserva extends JFrame{
 			        Point p = e.getPoint();
 			        fila = tabla.rowAtPoint(p);
 			        columna = tabla.columnAtPoint(p);
+			        if (r.getClienteResponsable() == null || r.getNumPersona() <= 0) {
+					    JOptionPane.showMessageDialog(
+					        null,
+					        "Debes introducir los datos de la reserva antes de seleccionar un horario",
+					        "Datos incompletos",
+					        JOptionPane.WARNING_MESSAGE
+					    );
+					    return;
+					}
 
 			        if (fila < 0 || columna < 0) return;
 			        if (columna == 0) return;

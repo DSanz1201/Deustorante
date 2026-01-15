@@ -97,7 +97,7 @@ public class Main extends  JFrame {
 		hora.setForeground(Color.WHITE);
 		hora.setFont(new Font("Arial", Font.BOLD, 15));
 		
-		ImageIcon logo = new ImageIcon("images/unnamed.png");
+		ImageIcon logo = new ImageIcon("resources/images/unnamed.png");
 		Image imgLog = logo.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
 		log = new JLabel(new ImageIcon(imgLog));
 		
@@ -359,7 +359,7 @@ public class Main extends  JFrame {
 //	        lClientes.add(c1);
 		SwingUtilities.invokeLater(()->{
 		    BD bd = new BD();
-		    bd.initBD("Deustorante.db");
+		    bd.initBD("resources/db/Deustorante.db");
 			bd.crearTablas();
 			new Main(bd);
 			// ya han sido insertados
