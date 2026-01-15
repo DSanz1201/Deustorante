@@ -1,4 +1,4 @@
-package deustorante;
+package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -26,6 +26,10 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+
+import db.BD;
+import domain.Cliente;
+import domain.Plato;
 
 public class Carta extends JFrame {
     private JFrame ventanaAnterior;

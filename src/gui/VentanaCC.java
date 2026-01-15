@@ -1,4 +1,4 @@
-package deustorante;
+package gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -20,6 +20,11 @@ import javax.swing.JProgressBar;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
+
+import db.BD;
+import domain.Cliente;
+import domain.TipoPersona;
+import main.Main;
 
 public class VentanaCC extends JFrame {
 	private static final long MAX_VALUE = 10_000_000;

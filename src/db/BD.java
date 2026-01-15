@@ -1,4 +1,4 @@
-package deustorante;
+package db;
 
 import java.beans.Statement;
 import java.io.File;
@@ -9,6 +9,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import domain.Cliente;
+import domain.Plato;
+import domain.Reserva;
+import domain.TipoPersona;
 
 public class BD {
 	

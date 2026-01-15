@@ -1,8 +1,9 @@
-package deustorante;
+package gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -12,6 +13,7 @@ import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -21,14 +23,20 @@ import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import db.BD;
+import domain.Reserva;
+
 public class VentanaReserva extends JFrame{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JFrame ventanaActual,ventanaAnterior;
 	private ModeloReserva modelo;
 	private JTable tabla;
 	private int fila,columna;
 	private BD bd;
-
-
+	private ImageIcon icono=new ImageIcon("resources/images/correct.png");
 	
 	public VentanaReserva(JFrame va,Reserva r, BD bd) {
 		super();
@@ -39,6 +47,8 @@ public class VentanaReserva extends JFrame{
 		this.setBounds(705,600,600,705);
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
+		Image img = icono.getImage().getScaledInstance(35, 35, Image.SCALE_SMOOTH);
+		icono = new ImageIcon(img);
 		
 		// COMPONENTES
 	    fila=-1;
@@ -52,11 +62,19 @@ public class VentanaReserva extends JFrame{
 		tabla.setShowHorizontalLines(true);
 		
 		
-	    JButton btnAuto = new JButton("Auto-asignar primera hora libre");
-	    btnAuto.setOpaque(true);
-	    btnAuto.setForeground(Color.WHITE);
-	    btnAuto.setBackground(Color.BLUE);
-	    this.getContentPane().add(btnAuto, BorderLayout.SOUTH);
+		JButton btnAuto = new JButton("Auto-asignar primera hora libre");
+		btnAuto.setOpaque(true);
+		btnAuto.setBackground(new Color(11, 60, 111)); 
+		btnAuto.setForeground(Color.WHITE);
+		btnAuto.setFont(new Font("Arial", Font.BOLD, 14));
+		btnAuto.setFocusPainted(false);
+
+		JPanel panelBoton = new JPanel();
+		panelBoton.setBackground(Color.WHITE);
+		panelBoton.add(btnAuto);
+		panelBoton.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 0, 5, 0));
+
+		this.getContentPane().add(panelBoton, BorderLayout.SOUTH);
 		
 		tabla.setRowHeight(50);
 		this.getContentPane().add(tabla.getTableHeader(),BorderLayout.NORTH);
@@ -139,37 +157,43 @@ public class VentanaReserva extends JFrame{
 
 			        JLabel l = new JLabel();
 			        l.setOpaque(true);
+			        l.setHorizontalAlignment(JLabel.CENTER);
+			        l.setVerticalAlignment(JLabel.CENTER);
 
-			  
 			        String[] reposo = {"R", "E", "P", "O", "S", "O"};
+
+			        // Filas de reposo
 			        if (row % 4 == 0 && row != 12) {
 			            l.setText(reposo[column]);
-			            l.setHorizontalAlignment(JLabel.CENTER);
-			            l.setBackground(Color.GRAY);
+			            l.setBackground(new Color(0, 51, 102)); 
+			            l.setForeground(Color.WHITE);  
+			            l.setIcon(null);
 			            return l;
 			        }
 
-			        
+			        // Primera columna (horas)
 			        if (column == 0) {
 			            l.setText(value != null ? value.toString() : "");
 			            l.setFont(new Font("Arial", Font.BOLD, 14));
-			            l.setBackground(new Color(230, 230, 230)); // gris claro
+			            l.setBackground(Color.WHITE);
+			            l.setIcon(null);
 			            return l;
 			        }
 
-			        
 			        Reserva rCelda = (Reserva) modelo.getValueAt(row, column);
 			        boolean reservado = (rCelda != null);
 
 			        if (reservado) {
-			            l.setBackground(new Color(144, 238, 144)); // verde claro
-			            l.setText("RESERVADO");
-			        } else {
-			            l.setBackground(Color.WHITE);
+			            l.setIcon(icono);   
 			            l.setText("");
+			            l.setBackground(Color.WHITE);
+			        } else {
+			            l.setIcon(null);
+			            l.setText("");
+			            l.setBackground(Color.WHITE);
 			        }
 
-			    
+			        // Hover (solo si no está reservada)
 			        if (fila == row && columna == column && !reservado) {
 			            l.setBackground(Color.BLUE);
 			        }
@@ -179,9 +203,9 @@ public class VentanaReserva extends JFrame{
 			);
 		tabla.setOpaque(true);
 		tabla.setBackground(Color.WHITE);
-		tabla.getTableHeader().setFont(new Font(Font.DIALOG, Font.BOLD, 15));
-		tabla.getTableHeader().setBackground(Color.cyan);
-	
+		tabla.getTableHeader().setFont(new Font("Arial", Font.BOLD, 15));
+		tabla.getTableHeader().setBackground(new Color(0, 119, 182));
+		tabla.getTableHeader().setForeground(Color.WHITE);
 		
 		tabla.addKeyListener(new KeyListener() {
 			

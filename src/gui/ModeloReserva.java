@@ -1,8 +1,10 @@
-package deustorante;
+package gui;
 import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
+
+import domain.Reserva;
 
 public class ModeloReserva extends DefaultTableModel{
 	private List<String> titulos = Arrays.asList("","LUNES","MARTES","MIERCOLES","JUEVES","VIERNES");
@@ -31,23 +33,20 @@ public class ModeloReserva extends DefaultTableModel{
 	    if (fila >= matriz.length)
 	        return null;
 
-	   
-	    if (fila % 4 == 0 && fila != 12)
-	        return buscarPrimeraLibre(fila + 1, 1);
-
 	  
-	    if (columna == 0)
-	        return buscarPrimeraLibre(fila, 1);
+	    if (fila % 4 == 0 && fila != 12)
+	        return buscarPrimeraLibre(fila + 1, 0);
 
-	
+	   
 	    if (matriz[fila][columna] == null)
 	        return new int[]{fila, columna};
 
-
+	   
 	    if (columna < matriz[0].length - 1)
 	        return buscarPrimeraLibre(fila, columna + 1);
 
-	    return buscarPrimeraLibre(fila + 1, 1);
+	   
+	    return buscarPrimeraLibre(fila + 1, 0);
 	}
 	@Override
 	public int getRowCount() {

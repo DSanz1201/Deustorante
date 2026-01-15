@@ -1,4 +1,4 @@
-package deustorante;
+package domain;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GraphicsConfiguration;

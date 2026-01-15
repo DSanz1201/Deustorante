@@ -1,4 +1,4 @@
-package deustorante;
+package main;
 import java.awt.AWTError;
 import java.awt.AWTEvent;
 import java.awt.BorderLayout;
@@ -31,6 +31,16 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
+
+import db.BD;
+import domain.Cliente;
+import domain.Plato;
+import domain.Reserva;
+import domain.TipoPersona;
+import gui.Carta;
+import gui.VentanaCC;
+import gui.VentanaIS;
+import gui.VentanaReserva;
 
 public class Main extends  JFrame {
 	private JPanel pCentro, pBotonesCentro, pNorte, pSur, pEste, pOeste;
@@ -297,7 +307,7 @@ public class Main extends  JFrame {
 			
 			@Override
 			public void run() {
-				String[] fotos = {"images/images.png","images/images2.png","images/images3.png"};
+				String[] fotos = {"resources/images/images.png","resources/images/images2.png","resources/images/images3.png"};
 				int i = 0;
 				while(!pararImg) {
 					if(i==fotos.length) {

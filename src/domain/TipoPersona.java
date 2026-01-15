@@ -1,4 +1,4 @@
-package deustorante;
+package domain;
 
 public enum TipoPersona {
 	ESTUDIANTE,PROFESOR, EXTERNO;

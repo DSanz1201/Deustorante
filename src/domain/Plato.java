@@ -1,4 +1,4 @@
-package deustorante;
+package domain;
 
 public class Plato {
     private String nombre;

@@ -1,4 +1,4 @@
-package deustorante;
+package gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -18,6 +18,10 @@ import javax.swing.JPasswordField;
 import javax.swing.JProgressBar;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
+
+import db.BD;
+import domain.Cliente;
+import main.Main;
 
 public class VentanaIS extends JFrame{
 	private JFrame ventanaAnterior;
