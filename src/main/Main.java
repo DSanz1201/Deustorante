@@ -180,8 +180,8 @@ public class Main extends  JFrame {
 
 			  + "<p style='text-align:center; font-weight:bold; font-size:12px; color:#CC0000;'>"
 			  + "DESCUENTOS ESPECIALES PARA LOS ALUMNOS<br>"
-			  + "DE LA UNIVERSIDAD DE DEUSTO,<br>"
-			  + "Y TAMBIÉN PARA LOS DE LA OTRA."
+			  + "TANTO DE LA UNIVERSIDAD DE DEUSTO,<br>"
+			  + "COMO DE OTRAS UNIVERSIDADES."
 			  + "</p>"
 
 			  + "</div></html>"

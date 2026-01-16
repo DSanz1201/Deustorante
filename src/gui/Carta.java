@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -11,6 +12,7 @@ import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultCellEditor;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -25,6 +27,7 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
 import db.BD;
@@ -32,7 +35,10 @@ import domain.Cliente;
 import domain.Plato;
 
 public class Carta extends JFrame {
-    private JFrame ventanaAnterior;
+	
+	private static final long serialVersionUID = 1L;
+	
+	private JFrame ventanaAnterior;
     private JFrame ventanaActual;
     private JTable tablaPedidos;
     private DefaultTableModel modeloTabla;
@@ -40,8 +46,10 @@ public class Carta extends JFrame {
     private JLabel ltotal;
     private List<Plato> listaPlatos;
     private double totalActual = 0.0;
-    private BD bd;
-    private Cliente cliente;
+    @SuppressWarnings("unused")
+	private BD bd;
+    @SuppressWarnings("unused")
+	private Cliente cliente;
 
     public Carta(JFrame va, BD bd, Cliente cliente) {
         this.ventanaAnterior = va;
@@ -54,24 +62,15 @@ public class Carta extends JFrame {
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout());
 
-        //cargo BD
+        //Cargar BD
         listaPlatos = bd.recuperarPlatos();
-
+        
+        //Inicializar el modelo de datos
         String[] columnas = {"Categoría", "Plato", "Precio", "Cantidad"};
         
-        modeloTabla = new DefaultTableModel(columnas, 0) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return column == 3;
-            }
-        };
+        inicializarModelo(listaPlatos, columnas);
 
-        // Rellenar modelo
-        for (Plato p : listaPlatos) {
-            modeloTabla.addRow(new Object[]{p.getCategoria(), p.getNombre(), String.format("%.2f €", p.getPrecio()), 0});
-        }
-
-        //Tabla
+        //Crear tabla prrincipal
         tablaPedidos = new JTable(modeloTabla);
         tablaPedidos.setRowHeight(30);
         tablaPedidos.setFont(new Font("SansSerif", Font.PLAIN, 14));
@@ -80,6 +79,75 @@ public class Carta extends JFrame {
         tablaPedidos.setShowGrid(false);
         tablaPedidos.setShowHorizontalLines(true);
         
+        //Ajustar aspecto tabla
+        tablaPedidos.getTableHeader().setFont(new Font("Arial", Font.BOLD, 15));
+        tablaPedidos.setRowHeight(35);
+        tablaPedidos.getTableHeader().setBackground(new Color(0, 119, 182));
+        tablaPedidos.getTableHeader().setForeground(Color.WHITE);
+        tablaPedidos.setSelectionBackground(new Color(173, 216, 230)); 
+        tablaPedidos.setSelectionForeground(Color.BLACK);
+        tablaPedidos.getColumnModel().getColumn(1).setPreferredWidth(150);
+
+        //Render columna 0
+        TableCellRenderer renderCol0 = new TableCellRenderer() {
+            
+            JLabel result = new JLabel();
+
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value,
+                    boolean isSelected, boolean hasFocus, int row, int column) {
+                
+            	result.setOpaque(true);
+            	
+            	String contenido = "";
+            	if (value != null) {
+            	    contenido = value.toString();
+            	}
+            	String categoriaUpper = contenido.toUpperCase();
+            	result.setText(categoriaUpper);
+                
+                result.setFont(new Font("Arial", Font.PLAIN, 14));
+                result.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
+                
+                if (isSelected) {
+                    result.setBackground(new Color(173, 216, 230));
+                    result.setForeground(Color.BLACK);
+                } else {
+                    if (row % 2 == 0) {
+                        result.setBackground(Color.WHITE);
+                    } else {
+                        result.setBackground(new Color(245, 249, 252));
+                    }
+                    result.setForeground(Color.BLACK);
+                }
+
+                if (categoriaUpper.contains("ENTRANTE")) {
+                    result.setIcon(new ImageIcon("resources/images/entrantes.png"));
+                } else if (categoriaUpper.contains("PRINCIPAL")) {
+                    result.setIcon(new ImageIcon("resources/images/plato.png"));
+                } else if (categoriaUpper.contains("POSTRE")) {
+                    result.setIcon(new ImageIcon("resources/images/postre.png"));
+                } else if (categoriaUpper.contains("BEBIDA")) {
+                    result.setIcon(new ImageIcon("resources/images/agua.png"));
+                } else {
+                    result.setIcon(null);
+                }
+                
+                return result;
+            }
+        };
+        
+        
+        tablaPedidos.getColumnModel().getColumn(0).setCellRenderer(renderCol0);
+
+        //Render columnas 2 y 3
+        DefaultTableCellRenderer restoColumnas = new DefaultTableCellRenderer();
+        restoColumnas.setHorizontalAlignment(SwingConstants.CENTER);
+        tablaPedidos.getColumnModel().getColumn(1).setCellRenderer(restoColumnas);
+        tablaPedidos.getColumnModel().getColumn(2).setCellRenderer(restoColumnas);
+        tablaPedidos.getColumnModel().getColumn(3).setCellRenderer(restoColumnas);
+        
+        //Seleccionar cantidad
         TableColumn columnaCantidad = tablaPedidos.getColumnModel().getColumn(3);
         JComboBox<Integer> comboBoxCantidad = new JComboBox<>();
         for(int i=0; i<=10; i++) {
@@ -87,11 +155,6 @@ public class Carta extends JFrame {
     	}
         columnaCantidad.setCellEditor(new DefaultCellEditor(comboBoxCantidad));
         tablaPedidos.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
-        
-        DefaultTableCellRenderer centrar = new DefaultTableCellRenderer();
-        centrar.setHorizontalAlignment(SwingConstants.CENTER);
-        tablaPedidos.getColumnModel().getColumn(2).setCellRenderer(centrar);
-        tablaPedidos.getColumnModel().getColumn(3).setCellRenderer(centrar);
         
         //Cesta
         JPanel panelCesta = new JPanel(new BorderLayout());
@@ -110,28 +173,24 @@ public class Carta extends JFrame {
         ltotal.setOpaque(true);
         ltotal.setBackground(Color.GRAY);
 
+        //Ajustar boton finalizar
         JButton btnFinalizar = new JButton("Confirmar Pedido");
         btnFinalizar.setFont(new Font("Arial", Font.BOLD, 16));
-        btnFinalizar.setBackground(Color.CYAN);
+        btnFinalizar.setFont(new Font("Arial", Font.BOLD, 16));
+        btnFinalizar.setBackground(new Color(0, 119, 182));
+        btnFinalizar.setForeground(Color.WHITE);
+        btnFinalizar.setFocusPainted(false);
+        btnFinalizar.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         
         JPanel panelFinalizar = new JPanel(new BorderLayout());
         panelFinalizar.add(ltotal, BorderLayout.NORTH);
         panelFinalizar.add(btnFinalizar, BorderLayout.SOUTH);
-
+        
+        //Añadir area cesta al panel cesta
         panelCesta.add(new JScrollPane(areaCesta), BorderLayout.CENTER);
         panelCesta.add(panelFinalizar, BorderLayout.SOUTH);
-
-        //Listener
-        modeloTabla.addTableModelListener(new TableModelListener() {
-            @Override
-            public void tableChanged(TableModelEvent e) {
-                if (e.getType() == TableModelEvent.UPDATE) {
-                   totalActual = actualizarCesta();
-                }
-            }
-        });
         
-        //Ventana principal
+        //Añadir ventana principal y terminar de configurar
         this.add(new JScrollPane(tablaPedidos), BorderLayout.CENTER);
         this.add(panelCesta, BorderLayout.EAST);
         JLabel titulo = new JLabel("", SwingConstants.CENTER);
@@ -143,6 +202,17 @@ public class Carta extends JFrame {
         titulo.setFont(new Font("Arial", Font.BOLD, 20));
         titulo.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         this.add(titulo, BorderLayout.NORTH);
+
+        
+        //Listeners
+        modeloTabla.addTableModelListener(new TableModelListener() {
+            @Override
+            public void tableChanged(TableModelEvent e) {
+                if (e.getType() == TableModelEvent.UPDATE) {
+                   totalActual = actualizarCesta();
+                }
+            }
+        });
 
         btnFinalizar.addActionListener(new ActionListener() {
             @Override
@@ -159,13 +229,11 @@ public class Carta extends JFrame {
                 if (totalActual == 0) {
                     JOptionPane.showMessageDialog(null, "La cesta está vacía.");
                 } else {
-                	//cantidades
                     List<Integer> cantidades = new ArrayList<>();
                     for (int i = 0; i < modeloTabla.getRowCount(); i++) {
                         cantidades.add((Integer) modeloTabla.getValueAt(i, 3));
                     }
 
-                    //guarda en BD
                     int idPedido = bd.insertarPedido(cliente.getEmail(), totalActual, listaPlatos, cantidades);
                     
                     if (idPedido != -1) {
@@ -188,7 +256,10 @@ public class Carta extends JFrame {
         
         this.setVisible(true);
     }
-
+    
+    
+    //Metodos auxiliares
+    
     private double actualizarCesta() {
         String texto = "";
         double totalActual = 0.0;
@@ -220,4 +291,26 @@ public class Carta extends JFrame {
         
         return totalActual;
     }
+    
+    private void inicializarModelo(List<Plato> listaPlatos, String[] columnas) {
+    	String[] categorias = {"ENTRANTE", "PRINCIPAL", "POSTRE", "BEBIDA"};
+    	
+        modeloTabla = new DefaultTableModel(columnas, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return column == 3;
+            }
+        };
+        
+        
+        for(String categoria : categorias) {
+        	for (Plato p : listaPlatos) {
+        		if(p.getCategoria().toUpperCase().equals(categoria)) {
+        			modeloTabla.addRow(new Object[]{p.getCategoria(), p.getNombre(), String.format("%.2f €", p.getPrecio()), 0});
+        		}
+            }
+        }
+        
+    }
+
 }
