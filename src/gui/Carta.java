@@ -264,7 +264,8 @@ public class Carta extends JFrame {
             if (cantidad > 0) {
                 hayItems = true;
                 String nombre = (String) modeloTabla.getValueAt(i, 1);
-                double precioUnitario = listaPlatos.get(i).getPrecio(); 
+                String precioString = (String) modeloTabla.getValueAt(i, 2);
+                double precioUnitario = Double.parseDouble(precioString.replace(" €", "").replace(",", "."));
                 double subtotal = precioUnitario * cantidad;
                 totalActual += subtotal;
                 
