@@ -155,6 +155,7 @@ public class Main extends  JFrame {
 		Image img =  iconoprimero.getImage().getScaledInstance(450,200, Image.SCALE_SMOOTH);
 		l1.setIcon(new ImageIcon(img));
 		
+		// Herramienta : ChapGpt
 		// Uso de IA para generar el texto de forma correcta( texto_principal)
 		JLabel texto_principal = new JLabel(
 			    "<html>"
@@ -341,6 +342,8 @@ public class Main extends  JFrame {
 			bd.crearTablas();
 			new Main(bd);
 			
+			//Herramienta Gemini:
+			// Uso para crear una serie de platos 
 			//entrantes
 			bd.insertarPlato(new Plato("Ensalada mixta", 6.50, "Entrante"));
 			bd.insertarPlato(new Plato("Croquetas caseras (6u)", 7.00, "Entrante"));
