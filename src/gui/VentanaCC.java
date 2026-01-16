@@ -156,7 +156,7 @@ public class VentanaCC extends JFrame {
 			String con = txtcontr.getText();
 			String rep = txtrep.getText();
 			if(!con.equals(rep) || con.equals("") || em.equals("")) {
-				JOptionPane.showMessageDialog(null, "Nombre o contraseña incorrecto", "Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Contraseña no coincide", "Error", JOptionPane.ERROR_MESSAGE);
 				txtrep.setText("");
 				txtcontr.setText("");
 			}
