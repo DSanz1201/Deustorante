@@ -37,3 +37,6 @@ replay_pid*
 .DS_Store
 Thumbs.db
 
+# Base de datos SQLite
+resources/db/Deustorante.db
+
