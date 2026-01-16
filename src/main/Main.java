@@ -62,7 +62,7 @@ public class Main extends  JFrame {
 		pCentro.setBackground(Color.WHITE);
 		pCentro.setOpaque(true);
 		
-		pBotonesCentro = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 30));
+		pBotonesCentro = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 15));
 		pBotonesCentro.setBackground(Color.WHITE);
 		pBotonesCentro.setOpaque(true);
 		pBotonesCentro.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -173,7 +173,7 @@ public class Main extends  JFrame {
 			  + "y un menú con +10 de energía garantizada."
 			  + "</p>"
 
-			  + "<p style='text-align:center; font-weight:bold; font-size:12px; color:#CC0000;'>"
+			  + "<p style='text-align:center; font-weight:bold; font-size:12px; color:#CC0000;margin-top: 20px;'>"
 			  + "DESCUENTOS ESPECIALES PARA LOS ALUMNOS<br>"
 			  + "TANTO DE LA UNIVERSIDAD DE DEUSTO,<br>"
 			  + "COMO DE OTRAS UNIVERSIDADES."
