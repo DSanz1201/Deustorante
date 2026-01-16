@@ -155,8 +155,8 @@ public class Main extends  JFrame {
 		Image img =  iconoprimero.getImage().getScaledInstance(450,200, Image.SCALE_SMOOTH);
 		l1.setIcon(new ImageIcon(img));
 		
-		// Herramienta : ChapGpt
-		// Uso de IA para generar el texto de forma correcta( texto_principal)
+		//IAG (herramienta: ChatGPT)
+		//ADAPTADO (se han realizado cambios en el texto asi como en el tamaño)
 		JLabel texto_principal = new JLabel(
 			    "<html>"
 			  + "<div style='width:420px; margin:8px auto; padding:10px;"
@@ -261,7 +261,6 @@ public class Main extends  JFrame {
 					
 				} catch (Exception err) {
 					this.dispose();
-					//new Main(clientes);
 				}
 			}
 			
@@ -342,8 +341,9 @@ public class Main extends  JFrame {
 			bd.crearTablas();
 			new Main(bd);
 			
-			//Herramienta Gemini:
-			// Uso para crear una serie de platos 
+			//IAG (herramienta: Gemini)
+			//SIN CAMBIOS
+			
 			//entrantes
 			bd.insertarPlato(new Plato("Ensalada mixta", 6.50, "Entrante"));
 			bd.insertarPlato(new Plato("Croquetas caseras (6u)", 7.00, "Entrante"));
