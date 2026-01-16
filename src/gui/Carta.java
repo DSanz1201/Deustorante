@@ -57,7 +57,7 @@ public class Carta extends JFrame {
         this.bd = bd;
         this.cliente = cliente;
         this.setTitle("Realizar Pedido");
-        this.setBounds(800, 400, 900, 700);
+        this.setBounds(800, 400, 1000, 700);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout());
@@ -72,20 +72,16 @@ public class Carta extends JFrame {
 
         //Crear tabla prrincipal
         tablaPedidos = new JTable(modeloTabla);
-        tablaPedidos.setRowHeight(30);
         tablaPedidos.setFont(new Font("SansSerif", Font.PLAIN, 14));
-        tablaPedidos.getTableHeader().setFont(new Font(Font.DIALOG, Font.BOLD, 15));
-        tablaPedidos.getTableHeader().setBackground(Color.CYAN);
-        tablaPedidos.setShowGrid(false);
-        tablaPedidos.setShowHorizontalLines(true);
-        
-        //Ajustar aspecto tabla
-        tablaPedidos.getTableHeader().setFont(new Font("Arial", Font.BOLD, 15));
         tablaPedidos.setRowHeight(35);
+        tablaPedidos.getTableHeader().setFont(new Font(Font.DIALOG, Font.BOLD, 15));
         tablaPedidos.getTableHeader().setBackground(new Color(0, 119, 182));
         tablaPedidos.getTableHeader().setForeground(Color.WHITE);
+        tablaPedidos.setShowGrid(false);
+        tablaPedidos.setShowHorizontalLines(true);
         tablaPedidos.setSelectionBackground(new Color(173, 216, 230)); 
         tablaPedidos.setSelectionForeground(Color.BLACK);
+        
         tablaPedidos.getColumnModel().getColumn(1).setPreferredWidth(150);
 
         //Render columna 0
@@ -111,15 +107,10 @@ public class Carta extends JFrame {
                 
                 if (isSelected) {
                     result.setBackground(new Color(173, 216, 230));
-                    result.setForeground(Color.BLACK);
                 } else {
-                    if (row % 2 == 0) {
-                        result.setBackground(Color.WHITE);
-                    } else {
-                        result.setBackground(new Color(245, 249, 252));
-                    }
-                    result.setForeground(Color.BLACK);
+                    result.setBackground(Color.WHITE);
                 }
+                result.setForeground(Color.BLACK);
 
                 if (categoriaUpper.contains("ENTRANTE")) {
                     result.setIcon(new ImageIcon("resources/images/entrantes.png"));
@@ -158,7 +149,7 @@ public class Carta extends JFrame {
         
         //Cesta
         JPanel panelCesta = new JPanel(new BorderLayout());
-        panelCesta.setPreferredSize(new Dimension(250, 0));
+        panelCesta.setPreferredSize(new Dimension(315, 0));
         panelCesta.setBorder(BorderFactory.createTitledBorder("Tu Cesta"));
         panelCesta.setBackground(Color.WHITE);
 
@@ -171,7 +162,7 @@ public class Carta extends JFrame {
         ltotal.setFont(new Font("Arial", Font.BOLD, 18));
         ltotal.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         ltotal.setOpaque(true);
-        ltotal.setBackground(Color.GRAY);
+        ltotal.setBackground(Color.GRAY.brighter());
 
         //Ajustar boton finalizar
         JButton btnFinalizar = new JButton("Confirmar Pedido");
@@ -187,7 +178,7 @@ public class Carta extends JFrame {
         panelFinalizar.add(btnFinalizar, BorderLayout.SOUTH);
         
         //Añadir area cesta al panel cesta
-        panelCesta.add(new JScrollPane(areaCesta), BorderLayout.CENTER);
+        panelCesta.add(areaCesta, BorderLayout.CENTER);
         panelCesta.add(panelFinalizar, BorderLayout.SOUTH);
         
         //Añadir ventana principal y terminar de configurar
