@@ -1,15 +1,4 @@
 package domain;
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.GraphicsConfiguration;
-import java.awt.GridLayout;
-import java.awt.HeadlessException;
-import java.awt.event.MouseEvent;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 public class Reserva  {
 	private static int cont;

@@ -1,29 +1,20 @@
 package main;
-import java.awt.AWTError;
-import java.awt.AWTEvent;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.HeadlessException;
 import java.awt.Image;
-import java.awt.Point;
-import java.awt.Rectangle;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -36,21 +27,25 @@ import db.BD;
 import domain.Cliente;
 import domain.Plato;
 import domain.Reserva;
-import domain.TipoPersona;
 import gui.Carta;
 import gui.VentanaCC;
 import gui.VentanaIS;
 import gui.VentanaReserva;
 
 public class Main extends  JFrame {
+
+	private static final long serialVersionUID = 1L;
+	
 	private JPanel pCentro, pBotonesCentro, pNorte, pSur, pEste, pOeste;
 	protected JButton btnIS,btnCC, btnReserva, btnCarta;
 	protected JLabel titulo, log, l1, texto_principal, espacio1, espacio2,hora;
-	private boolean pararImg,cambio,cambio2;
+	private boolean pararImg,cambio;
 	private JFrame ventanaActual;
 	private JProgressBar jb;
+	@SuppressWarnings("unused")
 	private Thread tpro,thora;
-	private int fila,col;
+	@SuppressWarnings("unused")
+	private int fila, col;
 	private Cliente usuarioLogueado = null;
 	
 	
@@ -238,36 +233,30 @@ public class Main extends  JFrame {
 		
 		
 		btnReserva.addActionListener((e)->{
+			if (usuarioLogueado == null) {
+		        JOptionPane.showMessageDialog(null, "Debes iniciar sesión para realizar una reserva.", "Acceso denegado", JOptionPane.WARNING_MESSAGE);
+		        return;
+		    }
+			
 			if(!pararImg) {
 				try {
-				ventanaActual.setVisible(false);
-				String datos = JOptionPane.showInputDialog(
-						"Ingrese su número de personas y email separados por coma:\n correo@gmail.com"
-					);
+					Integer[] opcionesPersonas = {1, 2, 3, 4, 5, 6, 7, 8};
+		            JComboBox<Integer> comboPersonas = new JComboBox<>(opcionesPersonas);
 
-					String[] partes = datos.split(",");
+		            Object[] mensaje = {
+		                "Seleccione el número de personas:", comboPersonas
+		            };
 
-					int num = Integer.parseInt(partes[0].trim());
-					String em = partes[1].trim();
+		            int opcion = JOptionPane.showConfirmDialog(null, mensaje, "Nueva Reserva", JOptionPane.OK_CANCEL_OPTION);
 
-					String[] opciones = {"Estudiante", "Profesor", "Externo"};
-					String per = (String) JOptionPane.showInputDialog(
-					    null,
-					    "Seleccione su tipo de persona:",
-					    "Tipo de persona",
-					    JOptionPane.QUESTION_MESSAGE,
-					    null,
-					    opciones,
-					    opciones[0]
-					);
-				
-					TipoPersona p = TipoPersona.valueOf(per.toUpperCase());
-					Cliente c = new Cliente(em, "", p);
-					Reserva r = new Reserva(num, c);
-					jb.setVisible(true);
-					//tpro.start();
-					new VentanaReserva(ventanaActual,r, bd);
-					
+		            if (opcion == JOptionPane.OK_OPTION) {
+		                int num = (int) comboPersonas.getSelectedItem();
+		                
+		                Reserva r = new Reserva(num, usuarioLogueado); 
+		                
+		                ventanaActual.setVisible(false);
+		                new VentanaReserva(ventanaActual, r, bd);
+		            }
 					
 				} catch (Exception err) {
 					this.dispose();
@@ -346,28 +335,12 @@ public class Main extends  JFrame {
 		
 	}
 	public static void main(String[] args) {
-//	List<Cliente>	lClientes = new ArrayList<Cliente>();
-//		 	Cliente c1 = new Cliente("juan@example.com", "1234juan",TipoPersona.ESTUDIANTE);
-//	        Cliente c2 = new Cliente("maria@example.com", "mariaPass",TipoPersona.PROFESOR);
-//	        Cliente c3 = new Cliente("pedro@example.com", "pedro_2025",TipoPersona.EXTERNO);
-//	        Cliente c4 = new Cliente("laura@example.com", "lauraSegura",TipoPersona.PROFESOR);
-//	        Cliente c5 = new Cliente("ana@example.com", "anaClave",TipoPersona.ESTUDIANTE);
-//	        lClientes.add(c5);
-//	        lClientes.add(c4);
-//	        lClientes.add(c3);
-//	        lClientes.add(c2);
-//	        lClientes.add(c1);
 		SwingUtilities.invokeLater(()->{
 		    BD bd = new BD();
 		    bd.initBD("resources/db/Deustorante.db");
 			bd.crearTablas();
 			new Main(bd);
-			// ya han sido insertados
-//		    bd.insertarCliente(c1);
-//		    bd.insertarCliente(c2);
-//		    bd.insertarCliente(c3);
-//		    bd.insertarCliente(c4);
-//		    bd.insertarCliente(c5);
+			
 			//entrantes
 			bd.insertarPlato(new Plato("Ensalada mixta", 6.50, "Entrante"));
 			bd.insertarPlato(new Plato("Croquetas caseras (6u)", 7.00, "Entrante"));

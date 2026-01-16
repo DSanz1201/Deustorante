@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GridLayout;
-import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -24,6 +22,9 @@ import domain.Cliente;
 import main.Main;
 
 public class VentanaIS extends JFrame{
+
+	private static final long serialVersionUID = 1L;
+	
 	private JFrame ventanaAnterior;
 	private JFrame ventanaActual;
 	private JPanel pCentro,pSur;
@@ -33,7 +34,9 @@ public class VentanaIS extends JFrame{
 	private JButton btnVolver,btnAceptar;
 	private JProgressBar jb;
 	private Thread tpro;
+	@SuppressWarnings("unused")
 	private BD bd;
+	@SuppressWarnings("unused")
 	private Main main;
 	
 	public VentanaIS(JFrame va,BD bd, Main main) {
@@ -129,6 +132,7 @@ public class VentanaIS extends JFrame{
 		});
 		btnAceptar.addActionListener((e)->{
 			String em = txtemail.getText();
+			@SuppressWarnings("deprecation")
 			String cont = txtcontr.getText();
 			if(!bd.comprobarCliente(em,cont) || cont.equals("") || em.equals("")) {
 				JOptionPane.showMessageDialog(null, "Email o contraseña incorrectos", "Error", JOptionPane.ERROR_MESSAGE);

@@ -2,7 +2,6 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
@@ -10,7 +9,6 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -19,8 +17,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JProgressBar;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import db.BD;
@@ -35,6 +31,7 @@ public class VentanaReserva extends JFrame{
 	private ModeloReserva modelo;
 	private JTable tabla;
 	private int fila,columna;
+	@SuppressWarnings("unused")
 	private BD bd;
 	private ImageIcon icono=new ImageIcon("resources/images/correct.png");
 	

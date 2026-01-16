@@ -3,10 +3,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.GridLayout;
-import java.awt.Insets;
-import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -18,7 +14,6 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JProgressBar;
 import javax.swing.JTextField;
-import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
 import db.BD;
@@ -27,6 +22,10 @@ import domain.TipoPersona;
 import main.Main;
 
 public class VentanaCC extends JFrame {
+
+	private static final long serialVersionUID = 1L;
+	
+	@SuppressWarnings("unused")
 	private static final long MAX_VALUE = 10_000_000;
 	private JFrame ventanaAnterior;
 	private JFrame ventanaActual;
@@ -37,9 +36,12 @@ public class VentanaCC extends JFrame {
 	private JButton btnVolver,btnAceptar;
 	private JProgressBar jb ;
 	private Thread tpro;
+	@SuppressWarnings("unused")
 	private BD bd;
+	@SuppressWarnings("unused")
 	private Main main;
 	
+	@SuppressWarnings("deprecation")
 	public VentanaCC(JFrame ventanaActual2, BD bd,Main main) {
 		super();
 		ventanaAnterior = ventanaActual2;

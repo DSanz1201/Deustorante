@@ -7,6 +7,9 @@ import javax.swing.table.DefaultTableModel;
 import domain.Reserva;
 
 public class ModeloReserva extends DefaultTableModel{
+
+	private static final long serialVersionUID = 1L;
+	
 	private List<String> titulos = Arrays.asList("","LUNES","MARTES","MIERCOLES","JUEVES","VIERNES");
 	private Reserva matriz[][];
 	public ModeloReserva() {
